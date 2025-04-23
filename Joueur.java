@@ -5,16 +5,19 @@ public class Joueur {
     private int nom;
     private Zone position;
     private boolean alive;
-    private Classe classe;
+    private Role role;
     private int nbActions = 3;
     private ArrayList<Element> elements;
     private ArrayList<Element> cles;
+    // j'ai ajouté ça pour les cartes du joueur
+    private ArrayList<Carte> cartes_joueur;
     
     public Joueur(int nom, Zone position) {
         this.nom = nom;
         this.position = position;
         this.elements = new ArrayList<>();
         this.cles = new ArrayList<>();
+        this.cartes_joueur = new ArrayList<Carte>(5);
     }
     public int getNbActions() { return nbActions; }
     public boolean estVivant() { return alive; }
@@ -36,4 +39,4 @@ public class Joueur {
     }
 }
 
-enum Classe{ pilote, ingenieur, explorateur, navigateur, plongeur, messager}
+enum Role{ pilote, ingenieur, explorateur, navigateur, plongeur, messager}
