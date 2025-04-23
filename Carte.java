@@ -31,4 +31,7 @@ enum TypeCarte {
     public Element getElement(){
         return element;
     }
+    TypeCarte getTypeCarte(){
+        return this.type;
+    }
 }

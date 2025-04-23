@@ -51,10 +51,26 @@ public class PaquetdeCartes{
 
     // Cette méthode dépose la carte dans la défausse
     public void poser(Carte carte){
-        if carte.type ==  
+        if (carte.getType() == TypeCarte.inondation){
+            defausseInondations.add(carte);
+        }
+        else{
+            defausseTresors.add(carte);
+        }
     }
 
-    public void replacerAuSommet(){    
-        
+    public void replacerAuSommet_tresors(){    
+        for(int i = 0; i<defausseTresors.size(); i++){
+            tresor.add(defausseTresors.get( i )) ;
+        }
+        defausseTresors.clear();
     }
+
+    public void replacerAuSommet_inondations(){    
+        for(int i = 0; i<defausseInondations.size(); i++){
+            tresor.add(defausseInondations.get( i )) ;
+        }
+        defausseInondations.clear();
+    }
+
 }
