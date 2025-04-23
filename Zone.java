@@ -1,5 +1,5 @@
 public class Zone{
-    private int /*final*/ x, y;
+    private final int x, y;
     private Etat etat;
     private Type type;
 
