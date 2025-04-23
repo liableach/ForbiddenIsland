@@ -3,7 +3,8 @@ import java.util.ArrayList;
 public class PaquetdeCartes{
     private ArrayList<Carte> tresor; //28
     private ArrayList<Carte> inondations; //24
-    private ArrayList<Carte> defausse;
+    private ArrayList<Carte> defausseTresors;
+    private ArrayList<Carte> defausseInondations;
     public PaquetdeCartes(){
         tresor = new ArrayList<Carte>();
         for(int i = 0; i < 5; i++){
@@ -22,7 +23,8 @@ public class PaquetdeCartes{
         inondations = new ArrayList<Carte>();
         for(int i = 0; i < 24; i++) inondations.add(new Carte(TypeCarte.inondation, i));
 
-        defausse = new ArrayList<Carte>();
+        defausseTresors = new ArrayList<Carte>();
+        defausseInondations = new ArrayList<Carte>();
     }
 
     public void melanger(){
