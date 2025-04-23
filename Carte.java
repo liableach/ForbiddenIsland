@@ -8,6 +8,9 @@ public class Carte {
     public Carte(TypeCarte t, int n){
         type = t; this.n = n;
     }
+    TypeCarte getTypeCarte(){
+        return this.type;
+    }
 }
 enum TypeCarte {
     inondation,
@@ -30,8 +33,5 @@ enum TypeCarte {
 
     public Element getElement(){
         return element;
-    }
-    TypeCarte getTypeCarte(){
-        return this.type;
     }
 }

@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 
 public class PaquetdeCartes{
     private ArrayList<Carte> tresor; //28
@@ -29,21 +29,21 @@ public class PaquetdeCartes{
         }
 
     public void melanger_tresor(){
-        Collection.shuffle(tresor);
+        Collections.shuffle(tresor);
     }
 
     public void melanger_inondations(){
-        Collection.shuffle(inondations);
+        Collections.shuffle(inondations);
     }
 
     public Carte tirerCarte_tresor(){
-        carte = tresor.get(27);
+        Carte carte = tresor.get(27);
         tresor.remove(27);
         return carte;
     }
     
     public Carte tireerCarte_inondations(){
-        carte = inondations.get(inondations.size() - 1);
+        Carte carte = inondations.get(inondations.size() - 1);
         inondations.remove(inondations.size() - 1);
         return carte;
 
@@ -51,7 +51,7 @@ public class PaquetdeCartes{
 
     // Cette méthode dépose la carte dans la défausse
     public void poser(Carte carte){
-        if (carte.getType() == TypeCarte.inondation){
+        if (carte.getTypeCarte() == TypeCarte.inondation){
             defausseInondations.add(carte);
         }
         else{
