@@ -1,14 +1,17 @@
 import java.util.ArrayList;
 
 public class PaquetdeCartes{
-    private ArrayList<Carte> cartes;
+    private ArrayList<Carte> tresor; //28
+    private ArrayList<Carte> inondations; //24
     private ArrayList<Carte> defausse;
     public PaquetdeCartes(){
-        //cartes = new ArrayList<>();
+        tresor = new ArrayList<Carte>();
+        inondations = new ArrayList<Carte>();
+        defausse = new ArrayList<Carte>();
     }
 
     public void melanger(){
-
+        
     }
     public Carte tirer(){
         return null;
