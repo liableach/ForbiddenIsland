@@ -6,7 +6,7 @@ class Vue extends JPanel {
 
     public Vue(Ile ile) {
         this.ile = ile;
-        setPreferredSize(new Dimension(600, 600)); // 100px par case
+        setPreferredSize(new Dimension(900, 900)); // 100px par case
     }
 
     @Override
