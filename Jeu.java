@@ -1,5 +1,4 @@
 import java.util.List;
-
 import javax.swing.SwingUtilities;
 
 public class Jeu {
@@ -14,5 +13,6 @@ public class Jeu {
     public static void main(String[] args) {
         Jeu jeu = new Jeu();
         SwingUtilities.invokeLater(() -> new FenetreJeu(jeu.i));
+        
     }
 }

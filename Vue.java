@@ -3,10 +3,11 @@ import java.awt.*;
 
 class Vue extends JPanel {
     private Ile ile;
-
+    int Width = 900;
+    int Height = 900;
     public Vue(Ile ile) {
         this.ile = ile;
-        setPreferredSize(new Dimension(900, 900)); // 100px par case
+        setPreferredSize(new Dimension(Width, Height)); // 100px par case
     }
 
     @Override
@@ -21,11 +22,11 @@ class Vue extends JPanel {
                     case inondee -> g.setColor(Color.CYAN);
                     case submergee -> g.setColor(Color.BLUE);
                 }
-                g.fillRect(x * 100, y * 100, 100, 100);
+                g.fillRect(x * 100 + Width/5, y * 100 + Height/5, 100, 100);
                 g.setColor(Color.BLACK);
-                g.drawRect(x * 100, y * 100, 100, 100);
+                g.drawRect(x * 100 + Width/5, y * 100 + Width/5, 100, 100);
 
-                g.drawString(z.getType().toString(), x * 100 + 10, y * 100 + 20);
+                g.drawString(z.getType().toString(), x * 100 + 10 + Width/5, y * 100 + 20 + Width/5);
             }
         }
     }
