@@ -8,7 +8,6 @@ public class PaquetdeCartes{
     }
 
     public void melanger(){
-
     }
     public Carte tirer(){
         return null;
