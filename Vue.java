@@ -4,8 +4,8 @@ import java.awt.*;
 
 class Vue extends JPanel {
     private Ile ile;
-    public int Width = 900;
-    public int Height = 900;
+    public int Width = 1920;
+    public int Height = 1080;
     private final Image Calice_de_l_onde = new ImageIcon(getClass().getResource("data/Calice_de_l_onde.png")).getImage();
     private final Image Cristal_ardent = new ImageIcon(getClass().getResource("data/Cristal_ardent.png")).getImage();
     private final Image Pierre_sacree = new ImageIcon(getClass().getResource("data/Pierre_sacree.png")).getImage();
@@ -37,18 +37,18 @@ class Vue extends JPanel {
                     case inondee -> g.setColor(Color.CYAN);
                     case submergee -> g.setColor(Color.WHITE);
                 }
-                g.fillRect(x * 100 + Width/5, y * 100 + Height/5, 100, 100);
+                g.fillRect(x * 150, y * 170 , 150 , 170);
                 g.setColor(Color.BLACK);
-                g.drawRect(x * 100 + Width/5, y * 100 + Width/5, 100, 100);
+                g.drawRect(x * 150 , y * 170 , 150, 170);
 
-                g.drawString(z.getType().toString(), x * 100 + 10 + Width/5, y * 100 + 20 + Width/5);
+                g.drawString(z.getType().toString(), x * 150 + 10 , y * 170 + 20 );
             }
         }
-        
+
         //affichage des artefacts en sur les 4 coins de l'île 100 x 100
-        g.drawImage(Calice_de_l_onde, Width/5, Height/5, 100, 100, null);
-        g.drawImage(Pierre_sacree, Width/5 , Height/5 + 100*5, 100, 100, null);
-        g.drawImage(Cristal_ardent, Width/5 + 100 * 5, Height/5, 100, 100, null);
-        g.drawImage(Statue_du_Zephir, Width/5 + 100 * 5, Height/5 + 100*5, 100, 100, null);
+        g.drawImage(Calice_de_l_onde, 0, 0, 150, 170, null);
+        g.drawImage(Pierre_sacree, Width/3 + 110 ,  0, 150, 170, null);
+        g.drawImage(Cristal_ardent,  0, Height - 230, 150, 170, null);
+        g.drawImage(Statue_du_Zephir, Width/3 + 110, Height - 230 , 150, 170, null);
     }
 }
