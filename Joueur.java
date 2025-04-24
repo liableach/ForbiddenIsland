@@ -8,7 +8,6 @@ public class Joueur {
     private Role role;
     private int nbActions = 3;
     private ArrayList<Element> elements;
-    private ArrayList<Element> cles;
     // j'ai ajouté ça pour les cartes du joueur
     private ArrayList<Carte> cartes_joueur;
     
@@ -16,7 +15,6 @@ public class Joueur {
         this.nom = nom;
         this.position = position;
         this.elements = new ArrayList<>();
-        this.cles = new ArrayList<>();
         this.cartes_joueur = new ArrayList<Carte>(5);
     }
     public int getNbActions() { return nbActions; }

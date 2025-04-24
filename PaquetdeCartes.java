@@ -72,12 +72,4 @@ public class PaquetdeCartes{
         }
         defausseInondations.clear();
     }
-    public static void main(String[] args) {
-        PaquetdeCartes paquet = new PaquetdeCartes();
-        paquet.melanger_tresor();
-        paquet.melanger_inondations();
-        for(int i = 0; i < 24; i++){
-            System.out.println(paquet.tireerCarte_inondations().getN());
-        }
-    }
 }
