@@ -27,7 +27,7 @@ class Vue extends JPanel {
                     case normale -> g.setColor(Color.LIGHT_GRAY);
                     case inondee -> g.setColor(Color.CYAN);
                     case submergee -> g.setColor(Color.BLUE);
-                }/* 
+                }
                 switch (z.getType()) {
                     case normale -> g.setColor(Color.LIGHT_GRAY);
                     case heliport -> g.setColor(Color.YELLOW);
@@ -35,12 +35,12 @@ class Vue extends JPanel {
                     case element_t -> g.setColor(Color.GRAY);
                     case element_e -> g.setColor(Color.BLUE);
                     case element_f -> g.setColor(Color.RED);
-                }*/
+                }
                 g.fillRect(x * 100 + Width/5, y * 100 + Height/5, 100, 100);
                 g.setColor(Color.BLACK);
                 g.drawRect(x * 100 + Width/5, y * 100 + Width/5, 100, 100);
 
-                //affichage des artefacts en sur les 4 coins de l'îles
+                //affichage des artefacts en sur les 4 coins de l'île
                 g.drawImage(Calice_de_l_onde, Width/5, Height/5, 100, 100, null);
                 g.drawImage(Pierre_sacree, Width/5 , Height/5 + 100*5, 100, 100, null);
                 g.drawImage(Cristal_ardent, Width/5 + 100 * 5, Height/5, 100, 100, null);
