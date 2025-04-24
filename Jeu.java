@@ -17,6 +17,6 @@ public class Jeu {
         SwingUtilities.invokeLater(() -> new FenetreJeu(jeu.i));
         Ile i = jeu.getIle();   
         i.getZone(3, 3).inonder();
-        i.getZone(3, 3).inonder();
+        
     }
 }
