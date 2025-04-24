@@ -24,7 +24,7 @@ class Vue extends JPanel {
             for (int x = 0; x < 6; x++){
                 Zone z = ile.getZone(x, y);
                 if (z == null) continue;
-                //if(z.getType() == Type.vide) continue;
+                if(z.getType() == Type.vide) continue;
                 switch (z.getType()) {
                     case normale -> g.setColor(Color.LIGHT_GRAY);
                     case heliport -> g.setColor(Color.YELLOW);
@@ -38,10 +38,13 @@ class Vue extends JPanel {
                 g.setColor(Color.BLACK);
                 g.drawRect(x * 100 + Width/5, y * 100 + Width/5, 100, 100);
 
-                //affichage des artefacts en sur les 4 coins de l'île
-
                 g.drawString(z.getType().toString(), x * 100 + 10 + Width/5, y * 100 + 20 + Width/5);
             }
         }
+        //affichage des artefacts en sur les 4 coins de l'île 100 x 100
+        g.drawImage(Calice_de_l_onde, Width/5, Height/5, 100, 100, null);
+        g.drawImage(Pierre_sacree, Width/5 , Height/5 + 100*5, 100, 100, null);
+        g.drawImage(Cristal_ardent, Width/5 + 100 * 5, Height/5, 100, 100, null);
+        g.drawImage(Statue_du_Zephir, Width/5 + 100 * 5, Height/5 + 100*5, 100, 100, null);
     }
 }
