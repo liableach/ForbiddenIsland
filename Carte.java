@@ -11,6 +11,9 @@ public class Carte {
     TypeCarte getTypeCarte(){
         return this.type;
     }
+    public int getN(){
+        return n;
+    }
 }
 enum TypeCarte {
     inondation,
