@@ -1,14 +1,17 @@
+import javax.imageio.ImageIO;
 import javax.swing.* ;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+
 
 class Vue extends JPanel {
     private Ile ile;
     public int Width = 900;
     public int Height = 900;
-    private final Image Calice_de_l_onde = new ImageIcon(getClass().getResource("Calice_de_l_onde.png")).getImage();
-    private final Image Cristal_ardent = new ImageIcon(getClass().getResource("Cristal_ardent.png")).getImage();
-    private final Image Pierre_sacree = new ImageIcon(getClass().getResource("Pierre_sacree.png")).getImage();
-    private final Image Statue_du_Zephir = new ImageIcon(getClass().getResource("Statue_du_Zephir.png")).getImage();
+    private final Image Calice_de_l_onde = new ImageIcon(getClass().getResource("data/Calice_de_l_onde.png")).getImage();
+    private final Image Cristal_ardent = new ImageIcon(getClass().getResource("data/Cristal_ardent.png")).getImage();
+    private final Image Pierre_sacree = new ImageIcon(getClass().getResource("data/Pierre_sacree.png")).getImage();
+    private final Image Statue_du_Zephir = new ImageIcon(getClass().getResource("data/Statue_du_Zephir.png")).getImage();
 
 
     public Vue(Ile ile) {
