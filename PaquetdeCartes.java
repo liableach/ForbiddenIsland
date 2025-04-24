@@ -22,10 +22,9 @@ public class PaquetdeCartes{
 
 
         inondations = new ArrayList<Carte>();
-
         for(int i = 0; i < 24; i++) inondations.add(new Carte(TypeCarte.inondation, i));
-            defausseTresors = new ArrayList<Carte>();
-            defausseInondations = new ArrayList<Carte>();
+        defausseTresors = new ArrayList<Carte>();
+        defausseInondations = new ArrayList<Carte>();
         }
 
     public void melanger_tresor(){
