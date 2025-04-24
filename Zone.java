@@ -14,6 +14,7 @@ public class Zone{
     public int getY(){ return y;}
     public Etat getEtat(){ return etat;}
     public Type getType(){ return type;}
+    public void setType(Type t){ type = t;}
     public String toString(){ return "Zone : " + "x = " + x + ", y = " + y + ", etat = " + etat + ", type = " + type;}
     public boolean traversable(){ return etat != Etat.submergee;}
     public void inonder(){ 

@@ -24,7 +24,6 @@ enum TypeCarte {
     montee_des_eaux,
     helicoptere,
     sacs_de_sable;
-
     private final Element element;
 
     TypeCarte(Element element){
