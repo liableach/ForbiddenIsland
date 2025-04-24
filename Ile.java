@@ -79,6 +79,5 @@ public class Ile{
         return grille[x][y];
     }  
     public Zone[][] getGrille(){ return grille; }
-    
 
 }

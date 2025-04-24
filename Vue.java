@@ -1,7 +1,5 @@
-import javax.imageio.ImageIO;
 import javax.swing.* ;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 
 class Vue extends JPanel {
@@ -26,11 +24,6 @@ class Vue extends JPanel {
             for (int x = 0; x < 6; x++){
                 Zone z = ile.getZone(x, y);
                 if (z == null) continue;
-                switch (z.getEtat()){
-                    case normale -> g.setColor(Color.LIGHT_GRAY);
-                    case inondee -> g.setColor(Color.CYAN);
-                    case submergee -> g.setColor(Color.BLUE);
-                }
                 switch (z.getType()) {
                     case vide -> g.setColor(Color.WHITE);
                     case normale -> g.setColor(Color.LIGHT_GRAY);
@@ -39,6 +32,10 @@ class Vue extends JPanel {
                     case element_t -> g.setColor(Color.GRAY);
                     case element_e -> g.setColor(Color.BLUE);
                     case element_f -> g.setColor(Color.RED);
+                }
+                switch (z.getEtat()){
+                    case inondee -> g.setColor(Color.CYAN);
+                    case submergee -> g.setColor(Color.WHITE);
                 }
                 g.fillRect(x * 100 + Width/5, y * 100 + Height/5, 100, 100);
                 g.setColor(Color.BLACK);
