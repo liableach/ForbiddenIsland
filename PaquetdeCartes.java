@@ -37,8 +37,8 @@ public class PaquetdeCartes{
     }
 
     public Carte tirerCarte_tresor(){
-        Carte carte = tresor.get(27);
-        tresor.remove(27);
+        Carte carte = tresor.get(tresor.size()-1);
+        tresor.remove(tresor.size() - 1);
         return carte;
     }
     
@@ -72,5 +72,12 @@ public class PaquetdeCartes{
         }
         defausseInondations.clear();
     }
-
+    public static void main(String[] args) {
+        PaquetdeCartes paquet = new PaquetdeCartes();
+        paquet.melanger_tresor();
+        paquet.melanger_inondations();
+        for(int i = 0; i < 24; i++){
+            System.out.println(paquet.tireerCarte_inondations().getN());
+        }
+    }
 }

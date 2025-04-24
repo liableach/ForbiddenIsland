@@ -28,5 +28,5 @@ public class Zone{
 }
 
 enum Etat{ normale, inondee, submergee}
-enum Type{ normale, heliport, element_a, element_t, element_e, element_f}
+enum Type{ normale, heliport, element_a, element_t, element_e, element_f, vide}
 enum Element{ air, terre, eau, feu}
