@@ -4,8 +4,8 @@ import java.awt.*;
 
 class Vue extends JPanel {
     private Ile ile;
-    public int Width = 900;
-    public int Height = 900;
+    public int Width = 1920;
+    public int Height = 1080;
     private final Image Calice_de_l_onde = new ImageIcon(getClass().getResource("data/Calice_de_l_onde.png")).getImage();
     private final Image Cristal_ardent = new ImageIcon(getClass().getResource("data/Cristal_ardent.png")).getImage();
     private final Image Pierre_sacree = new ImageIcon(getClass().getResource("data/Pierre_sacree.png")).getImage();
@@ -23,8 +23,7 @@ class Vue extends JPanel {
         for (int y = 0; y < 6; y++) {
             for (int x = 0; x < 6; x++){
                 Zone z = ile.getZone(x, y);
-                if (z == null) continue;
-                if(z.getType() == Type.vide) continue;
+                if (z == null || z.getType() == Type.vide) continue;
                 switch (z.getType()) {
                     case normale -> g.setColor(Color.LIGHT_GRAY);
                     case heliport -> g.setColor(Color.YELLOW);
@@ -42,9 +41,9 @@ class Vue extends JPanel {
             }
         }
         //affichage des artefacts en sur les 4 coins de l'île 100 x 100
-        g.drawImage(Calice_de_l_onde, Width/5, Height/5, 100, 100, null);
-        g.drawImage(Pierre_sacree, Width/5 , Height/5 + 100*5, 100, 100, null);
-        g.drawImage(Cristal_ardent, Width/5 + 100 * 5, Height/5, 100, 100, null);
-        g.drawImage(Statue_du_Zephir, Width/5 + 100 * 5, Height/5 + 100*5, 100, 100, null);
+        g.drawImage(Calice_de_l_onde, 0, 0, 100, 100, null);
+        g.drawImage(Pierre_sacree, 0, 735, 100, 100, null);
+        g.drawImage(Cristal_ardent, 620, 0, 100, 100, null);
+        g.drawImage(Statue_du_Zephir, 620, 735, 100, 100, null);
     }
 }
