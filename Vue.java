@@ -29,6 +29,7 @@ class Vue extends JPanel {
                     case submergee -> g.setColor(Color.BLUE);
                 }
                 switch (z.getType()) {
+                    case vide -> g.setColor(Color.WHITE);
                     case normale -> g.setColor(Color.LIGHT_GRAY);
                     case heliport -> g.setColor(Color.YELLOW);
                     case element_a -> g.setColor(Color.CYAN);
