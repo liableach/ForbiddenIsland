@@ -19,9 +19,12 @@ public class Zone{
     public boolean traversable(){ return etat != Etat.submergee;}
     public void inonder(){ 
         if(etat == Etat.normale) etat = Etat.inondee;
-        else etat = Etat.submergee;
+        else submerger();
     }
-    public void submerger(){ etat = Etat.submergee;}
+    public void submerger(){ 
+        etat = Etat.submergee;
+        type = Type.vide;
+    }
     public void assecher(){ 
         if(etat == Etat.inondee) etat = Etat.normale;
         else return;
