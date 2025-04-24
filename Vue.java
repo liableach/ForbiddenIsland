@@ -20,10 +20,10 @@ class Vue extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         for (int y = 0; y < 6; y++) {
-            for (int x = 0; x < 6; x++) {
+            for (int x = 0; x < 6; x++){
                 Zone z = ile.getZone(x, y);
                 if (z == null) continue;
-                switch (z.getEtat()) {
+                switch (z.getEtat()){
                     case normale -> g.setColor(Color.LIGHT_GRAY);
                     case inondee -> g.setColor(Color.CYAN);
                     case submergee -> g.setColor(Color.BLUE);

@@ -13,18 +13,18 @@ public class Ile{
                 grille[i][j] = new Zone(i, j, Type.normale);
             }
         }
-        grille[0][0].setType(Type.vide);
+        grille[0][0].setType(Type.eau);
         grille[0][1].setType(Type.vide);
         grille[0][4].setType(Type.vide);
-        grille[0][5].setType(Type.vide);
+        grille[0][5].setType(Type.terre);
         grille[1][0].setType(Type.vide);
         grille[1][5].setType(Type.vide);
         grille[4][0].setType(Type.vide);
         grille[4][5].setType(Type.vide);
-        grille[5][0].setType(Type.vide);
+        grille[5][0].setType(Type.feu);
         grille[5][1].setType(Type.vide);
         grille[5][4].setType(Type.vide);
-        grille[5][5].setType(Type.vide);
+        grille[5][5].setType(Type.air);
         Random r = new Random(); boolean fait = true;
         while(fait){
             int x1 = r.nextInt(x-1), y1 = r.nextInt(y-1);
