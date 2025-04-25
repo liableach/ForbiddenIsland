@@ -15,7 +15,7 @@ public class PaquetdeCartes{
             tresor.add(new Carte(TypeCarte.tresor_air));
         }
         for(int i = 0; i < 3; i++){
-            tresor.add(new Carte(TypeCarte.montee_des_eaux));
+            tresor.add(new Carte(TypeCarte.montee_des_eaux)); 
             tresor.add(new Carte(TypeCarte.helicoptere));
         }
         for(int i = 0; i < 2; i++) tresor.add(new Carte(TypeCarte.sacs_de_sable));

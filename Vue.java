@@ -21,7 +21,33 @@ class Vue extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         g.drawImage(fond, 0, 0, Width, Height-50, null); // Affichage de l'image de fond
+        //Positions des cartes inondations
+        g.drawRect( Width/2, 10, 150, 200);
+        g.fillRect( Width/2, 10, 150, 200);
+
+        //Positions des cartes trésors
+        g.drawRect( Width/2, 150 + 100, 150, 200);
+        g.fillRect( Width/2, 150 + 100, 150, 200);
+
+        //Positions de la défausse inondations
+        g.drawRect( Width/2 + 200, 10, 150, 200);
+        g.fillRect( Width/2 + 200, 10, 150, 200);
+
+        //Positions de la défausse trésors
+        g.drawRect( Width/2 + 200, 150 + 100, 150, 200);
+        g.fillRect( Width/2 + 200, 150 + 100, 150, 200);
+
+        //Position de la vue "Tour de "
+        g.drawRect(Width-300, 10, 300, 70);
+
+        //Position de l'affichage du niveau
+        g.drawRect(Width-600, 10, 250, 70);
+        //Affichage des cartes des joueurs et leurs récompense
+        g.drawRect(Width/2 - 50, Height/2 - 50, Width/2 + 30, 500);
+        g.drawLine(Width/2  - 50, (Height/2 - 50)/2,(Width/2  - 50) - (Width/2 + 30) , (Height/2 - 50)/2);
+
         for (int y = 0; y < 6; y++) {
             for (int x = 0; x < 6; x++){
                 Zone z = ile.getZone(x, y);
