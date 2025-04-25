@@ -1,10 +1,17 @@
 import java.util.Random;
+import javax.swing.ImageIcon;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Ile{
     private Zone[][] grille;
-    private int largueur, hauteur;    
+    private int largueur, hauteur;
+    private ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
 
     public Ile(int x, int y){
+        joueurs = new ArrayList<Joueur>(4);
         largueur = x; hauteur = y;
         grille = new Zone[x][y];
         for(int i = 0; i < x; i++){
@@ -72,6 +79,10 @@ public class Ile{
                         }
                     }   
         }
+        joueurs.add(new Joueur(0, getZoneHeliport(), new ImageIcon(getClass().getResource("data/Joueurs/explorateur.png")).getImage()));
+        joueurs.add(new Joueur(1, getZoneHeliport(), new ImageIcon(getClass().getResource("data/Joueurs/navigateur.png")).getImage()));
+        joueurs.add(new Joueur(2, getZoneHeliport(), new ImageIcon(getClass().getResource("data/Joueurs/pilote.png")).getImage()));
+        joueurs.add(new Joueur(3, getZoneHeliport(), new ImageIcon(getClass().getResource("data/Joueurs/plongeur.png")).getImage()));
     }
     public Zone getZone(int x, int y){
         if(x < 0 || x >= largueur || y < 0 || y >= hauteur) return null;
@@ -86,4 +97,5 @@ public class Ile{
         return null;
     }
     public Zone[][] getGrille(){ return grille; }
+    public ArrayList<Joueur> getJoueurs(){ return joueurs; }
 }

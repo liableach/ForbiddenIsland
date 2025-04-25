@@ -22,12 +22,13 @@ public class Joueur {
     private List<Carte>cles; // 0 - eau, 1 - feu, 2 - terre, 3 - air
     private Image image;
 
-    public Joueur(int nom, Zone position){
+    public Joueur(int nom, Zone position, Image image){
         this.nom = nom;
         this.position = position;
         this.artefacts = new ArrayList<>();
         this.cartes_joueur = new ArrayList<Carte>(5);
         this.cles = new ArrayList<Carte>(4); 
+        this.image = image;
     }
     public int getNbActions(){ return nbActions; }
     public boolean estVivant(){ return alive; }
@@ -137,8 +138,8 @@ public class Joueur {
         return res;
     }
     private boolean correspond(TypeCarte t, Element e){ return (t.getElement() == e); }
-    public void recupererArtefact(Element e, Jeu j, PaquetdeCartes cartes){
-        for(Joueur p : j.getJoueurs()) if(p != this && p.contientArtefact(e)) throw new IllegalStateException("Artefact déjà pris par un autre joueur.");
+    public void recupererArtefact(Element e, Ile i, PaquetdeCartes cartes){
+        for(Joueur p : i.getJoueurs()) if(p != this && p.contientArtefact(e)) throw new IllegalStateException("Artefact déjà pris par un autre joueur.");
         int ind = switch(e){
             case eau -> 0;
             case feu -> 1;
@@ -168,6 +169,10 @@ public class Joueur {
     public void monteeDesEauxTirée(Jeu j){
         if(j.getTour() == 0);
     }
+
+    public Image getImage(){
+        return this.image;
+    } 
 }
 
 enum Role{ pilote, ingenieur, explorateur, navigateur, plongeur, messager }

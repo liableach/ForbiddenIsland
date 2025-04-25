@@ -1,5 +1,6 @@
 import javax.swing.* ;
 import java.awt.*;
+import java.util.ArrayList;
 
 
 class Vue extends JPanel {
@@ -11,6 +12,8 @@ class Vue extends JPanel {
     private final Image Pierre_sacree = new ImageIcon(getClass().getResource("data/Pierre_sacree.png")).getImage();
     private final Image Statue_du_Zephir = new ImageIcon(getClass().getResource("data/Statue_du_Zephir.png")).getImage();
     private final Image fond = new ImageIcon(getClass().getResource("data/L_ile_interdite_teaseur.jpg")).getImage();
+    private final Image heliport_non_inondee = new ImageIcon(getClass().getResource("data/heliport_non_inondee.png")).getImage();
+    private final Image heliport_inondee = new ImageIcon(getClass().getResource("data/heliport_inondee.png")).getImage();
 
 
     public Vue(Ile ile) {
@@ -78,5 +81,14 @@ class Vue extends JPanel {
         g.drawImage(Cristal_ardent,  0, Height - 230, 150, 170, null);
         g.drawImage(Statue_du_Zephir, Width/3 + 110, Height - 230 , 150, 170, null);
 
+        //affichage de l'héliport
+        g.drawImage(heliport_non_inondee,ile.getZoneHeliport().getX150() ,ile.getZoneHeliport().getY170(), 150, 170, null);
+
+        ArrayList<Joueur> joueurs = ile.getJoueurs();
+        //affichage des pions sur l'île(joueurs) en début de partie.
+        g.drawImage(joueurs.get(0).getImage(), ile.getZoneHeliport().getX150() + 5 ,ile.getZoneHeliport().getY170() + 5, 40, 40, null);
+        g.drawImage(joueurs.get(1).getImage(), ile.getZoneHeliport().getX150() + 100 ,ile.getZoneHeliport().getY170() + 5 , 40, 40, null);
+        g.drawImage(joueurs.get(2).getImage(), ile.getZoneHeliport().getX150() + 5 ,ile.getZoneHeliport().getY170() + 110 , 40, 40, null);
+        g.drawImage(joueurs.get(3).getImage(), ile.getZoneHeliport().getX150()  + 100,ile.getZoneHeliport().getY170() + 110, 40, 40, null);
     }
 }
