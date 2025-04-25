@@ -13,8 +13,10 @@ public class Zone{
         this.type = type;
     }
 
-    public int getX(){ return x;}
-    public int getY(){ return y;}
+    public int getX(){ return x ;}
+    public int getY(){ return y ;}
+    public int getX150(){return x * 150;}
+    public int getY170(){return y * 170;}
     public Etat getEtat(){ return etat;}
     public Type getType(){ return type;}
     public void setType(Type t){ type = t;}

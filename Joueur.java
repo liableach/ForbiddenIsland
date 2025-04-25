@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Queue;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -19,13 +20,15 @@ public class Joueur {
     // j'ai ajouté ça pour les cartes du joueur
     private ArrayList<Carte> cartes_joueur;
     private List<Carte>cles; // 0 - eau, 1 - feu, 2 - terre, 3 - air
-    
-    public Joueur(int nom, Zone position){
+    private Image image;
+
+    public Joueur(int nom, Zone position, Image image){
         this.nom = nom;
         this.position = position;
         this.artefacts = new ArrayList<>();
         this.cartes_joueur = new ArrayList<Carte>(5);
-        this.cles = new ArrayList<Carte>(4);
+        this.cles = new ArrayList<Carte>(4); 
+        this.image = image;
     }
     public int getNbActions(){ return nbActions; }
     public boolean estVivant(){ return alive; }
@@ -174,6 +177,10 @@ public class Joueur {
         }
         return false;
     }
+
+    public Image getImage(){
+        return this.image;
+    } 
 }
 
 enum Role{ pilote, ingenieur, explorateur, navigateur, plongeur, messager }
