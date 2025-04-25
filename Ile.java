@@ -1,5 +1,4 @@
 import java.util.Random;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +6,7 @@ public class Ile{
     private Zone[][] grille;
     private int largueur, hauteur;
     private List<Joueur> joueurs = new ArrayList<Joueur>();
+    private int currentJoueur;
 
     public Ile(int x, int y){
         joueurs = new ArrayList<Joueur>(4);
@@ -81,6 +81,7 @@ public class Ile{
         joueurs.add(new Joueur(1, getZoneHeliport()));
         joueurs.add(new Joueur(2, getZoneHeliport()));
         joueurs.add(new Joueur(3, getZoneHeliport()));
+        currentJoueur = 0;
     }
     public Zone getZone(int x, int y){
         if(x < 0 || x >= largueur || y < 0 || y >= hauteur) return null;
@@ -96,4 +97,6 @@ public class Ile{
     }
     public Zone[][] getGrille(){ return grille; }
     public List<Joueur> getJoueurs(){ return joueurs; }
+    public int getCurrentJoueur(){ return currentJoueur; }
+    public void setCurrentJoueur(int i){ currentJoueur = i; }
 }

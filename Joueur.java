@@ -156,6 +156,7 @@ public class Joueur {
                     toRemove--;
                 }
             }
+            i.getZone(position.getX(), position.getY()).setType(Type.normale);
         }
         else throw new IllegalStateException("Pas assez de cartes.");
     }
@@ -163,8 +164,15 @@ public class Joueur {
     public void retirerCarte(Carte c){ cartes_joueur.remove(c); }
     public void ajouterArtefact(Element e){ artefacts.add(e); }
     public int nbArtefacts(){ return artefacts.size(); }
-    public void monteeDesEauxTirée(Jeu j){
-        if(j.getTour() == 0);
+    public Carte getDerniereCarte(){
+        if(cartes_joueur.size() == 0) return null;
+        return cartes_joueur.get(cartes_joueur.size() - 1);
+    }
+    public boolean monteeDesEauxTiree(){
+        for(Carte c : cartes_joueur){
+            if(c.getTypeCarte() == TypeCarte.montee_des_eaux) return true;
+        }
+        return false;
     }
 }
 

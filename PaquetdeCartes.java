@@ -34,7 +34,10 @@ public class PaquetdeCartes{
     public void melanger_inondations(){
         Collections.shuffle(inondations);
     }
-
+    public void melanger_defausse_inondations(){
+        Collections.shuffle(defausseInondations);
+    }
+    public int getTailleDefausseInondations(){ return defausseInondations.size(); }
     public Carte tirerCarte_tresor(){
         Carte carte = tresor.get(tresor.size()-1);
         tresor.remove(tresor.size() - 1);
