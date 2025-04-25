@@ -135,8 +135,8 @@ public class Joueur {
         return res;
     }
     private boolean correspond(TypeCarte t, Element e){ return (t.getElement() == e); }
-    public void recupererArtefact(Element e, Jeu j, PaquetdeCartes cartes){
-        for(Joueur p : j.getJoueurs()) if(p != this && p.contientArtefact(e)) throw new IllegalStateException("Artefact déjà pris par un autre joueur.");
+    public void recupererArtefact(Element e, Ile i, PaquetdeCartes cartes){
+        for(Joueur p : i.getJoueurs()) if(p != this && p.contientArtefact(e)) throw new IllegalStateException("Artefact déjà pris par un autre joueur.");
         int ind = switch(e){
             case eau -> 0;
             case feu -> 1;
