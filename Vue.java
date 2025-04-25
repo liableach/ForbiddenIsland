@@ -46,7 +46,6 @@ class Vue extends JPanel {
         g.drawRect(Width-600, 10, 250, 70);
         //Affichage des cartes des joueurs et leurs récompense
         g.drawRect(Width/2 - 50, Height/2 - 50, Width/2 + 30, 500);
-        g.drawLine(Width/2  - 50, (Height/2 - 50)/2,(Width/2  - 50) - (Width/2 + 30) , (Height/2 - 50)/2);
 
         for (int y = 0; y < 6; y++) {
             for (int x = 0; x < 6; x++){
