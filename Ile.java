@@ -78,6 +78,14 @@ public class Ile{
         if(x < 0 || x >= largueur || y < 0 || y >= hauteur) return null;
         return grille[x][y];
     }  
+    public Zone getZoneHeliport(){
+        for(int i = 0; i < largueur; i++){
+            for(int j = 0; j < hauteur; j++){
+                if(grille[i][j].getType() == Type.heliport) return grille[i][j];
+            }
+        }
+        return null;
+    }
     public Zone[][] getGrille(){ return grille; }
 
 }
