@@ -21,7 +21,7 @@ class Vue extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(fond, 0, 0, Width-50, Height-50, null); // Affichage de l'image de fond
+        g.drawImage(fond, 0, 0, Width, Height-50, null); // Affichage de l'image de fond
         for (int y = 0; y < 6; y++) {
             for (int x = 0; x < 6; x++){
                 Zone z = ile.getZone(x, y);
