@@ -10,6 +10,7 @@ class Vue extends JPanel {
     private final Image Cristal_ardent = new ImageIcon(getClass().getResource("data/Cristal_ardent.png")).getImage();
     private final Image Pierre_sacree = new ImageIcon(getClass().getResource("data/Pierre_sacree.png")).getImage();
     private final Image Statue_du_Zephir = new ImageIcon(getClass().getResource("data/Statue_du_Zephir.png")).getImage();
+    private final Image fond = new ImageIcon(getClass().getResource("data/L_ile_interdite_teaseur.jpg")).getImage();
 
 
     public Vue(Ile ile) {
@@ -20,6 +21,7 @@ class Vue extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.drawImage(fond, 0, 0, Width-50, Height-50, null); // Affichage de l'image de fond
         for (int y = 0; y < 6; y++) {
             for (int x = 0; x < 6; x++){
                 Zone z = ile.getZone(x, y);
@@ -50,5 +52,6 @@ class Vue extends JPanel {
         g.drawImage(Pierre_sacree, Width/3 + 110 ,  0, 150, 170, null);
         g.drawImage(Cristal_ardent,  0, Height - 230, 150, 170, null);
         g.drawImage(Statue_du_Zephir, Width/3 + 110, Height - 230 , 150, 170, null);
+
     }
 }
