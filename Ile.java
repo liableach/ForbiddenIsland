@@ -2,8 +2,7 @@ import java.util.Random;
 
 public class Ile{
     private Zone[][] grille;
-    private int largueur, hauteur;
-
+    private int largueur, hauteur;    
 
     public Ile(int x, int y){
         largueur = x; hauteur = y;
