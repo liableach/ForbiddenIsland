@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 import javax.swing.SwingUtilities;
 
 public class Jeu {
@@ -32,12 +34,70 @@ public class Jeu {
         if (partieTerminee) return;
 
         Joueur joueur = i.getJoueurs().get(i.getCurrentJoueur());
-        joueur.actionsReset();
 
         // Phase d'actions du joueur (gérée ailleurs : FenetreJeu ou Vue)
         // -> ici on suppose que les 3 actions sont faites manuellement
-
-        if (joueur.getNbActions() <= 0) {
+        System.out.println("Actions disponibles pour " + joueur.getId() + " (" + joueur.getNbActions() + " actions restantes) :");
+        System.out.println("1. Se déplacer");
+        System.out.println("2. Assécher une zone");
+        System.out.println("3. Donner une carte");
+        System.out.println("4. Récupérer un artefact");
+        Scanner sc = new Scanner(System.in);
+        int choix = sc.nextInt();
+        switch(choix){
+        case 1:
+            System.out.println("Déplacement vers une autre zone, précisez la zone (x, y)");
+            int x = sc.nextInt();
+            int y = sc.nextInt();
+            Zone z = i.getZone(x, y);
+            if (z == null || z.getType() == Type.vide  || z.getType() == Type.air || z.getType() == Type.terre || z.getType() == Type.eau || z.getType() == Type.feu) {
+                System.out.println("Zone invalide !");
+                break;
+            }
+            joueur.deplacer(z, i); // à coder : méthode seDeplacer
+            break;
+        case 2:
+            System.out.println("Précisez la zone à assécher (x, y)");
+            x = sc.nextInt();
+            y = sc.nextInt();
+            z = i.getZone(x, y);
+            if (z == null || z.getType() == Type.vide  || z.getType() == Type.air || z.getType() == Type.terre || z.getType() == Type.eau || z.getType() == Type.feu) {
+                System.out.println("Zone invalide !");
+                break;
+            }
+            else if (z.getEtat() == Etat.normale) {
+                System.out.println("Zone déjà asséchée !");
+                break;
+            }
+            else joueur.assecher(z,i); // à coder : méthode assecher
+            break;
+        case 3:
+            System.out.println("Précisez le joueur à qui donner la carte (id) et la carte (id)");
+            int idJoueur = sc.nextInt();
+            int idCarte = sc.nextInt();
+            Joueur joueurCible = i.getJoueurs().get(idJoueur);
+            Carte c = joueur.getCarte(idCarte);
+            joueur.donnerCarte(joueurCible, c); // à coder : méthode donnerCarte
+            break;
+        case 4:
+            System.out.println("Précisez l'artefact à récupérer (id) : 0 - eau 1 - feu 2 - terre 3  - air");
+            int idArtefact = sc.nextInt();
+            switch(idArtefact) {
+            case 0:
+                joueur.recupererArtefact(Element.eau, i, paquet); // à coder : méthode recupererArtefact
+                break;
+            case 1:
+                joueur.recupererArtefact(Element.feu, i, paquet); // à coder : méthode recupererArtefact
+                break;
+            case 2:
+                joueur.recupererArtefact(Element.terre, i, paquet); // à coder : méthode recupererArtefact
+                break;
+            case 3:
+                joueur.recupererArtefact(Element.air, i, paquet); // à coder : méthode recupererArtefact
+                break;
+            }
+            break;
+        }
             // Fin du tour : pioche 2 cartes Trésor
             for (int j = 0; j < 2; j++) {
                 Carte c = paquet.tirerCarte_tresor();
@@ -67,12 +127,11 @@ public class Jeu {
                 finPartie(false);
                 return;
             }
-            if (i.getCurrentJoueur() >= i.getJoueurs().size()) {
+            if (i.getCurrentJoueur() == i.getJoueurs().size()-1) {
                 i.setCurrentJoueur(0);
             }
-            i.setCurrentJoueur(i.getCurrentJoueur() + 1);
+            else i.setCurrentJoueur(i.getCurrentJoueur() + 1);
             incrementerTour();
-        }
     }
 
     private int nombreCartesInondation() {

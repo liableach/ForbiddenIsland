@@ -36,7 +36,8 @@ public class Joueur {
     public int getNbActions(){ return nbActions; }
     public boolean estVivant(){ return alive; }
     public Zone getPos(){ return position; }
-    
+    //public String getNom(){ return nom; }
+    public int getId(){ return id; }
     public void actionFaite(){ nbActions--; }
     public void actionsReset(){ nbActions = 3; }
     public void resetActionSpeciale(){ actionSpeciale = false; }
@@ -142,6 +143,11 @@ public class Joueur {
     }
     private boolean correspond(TypeCarte t, Element e){ return (t.getElement() == e); }
     public void recupererArtefact(Element e, Ile i, PaquetdeCartes cartes){
+        Zone z = position;
+        if(z.getType() != Type.element_a && e == Element.air) throw new IllegalStateException("Zone non valide.");
+        else if(z.getType() != Type.element_f && e == Element.feu) throw new IllegalStateException("Zone non valide.");
+        else if(z.getType() != Type.element_t && e == Element.terre) throw new IllegalStateException("Zone non valide.");
+        else if(z.getType() != Type.element_e && e == Element.eau) throw new IllegalStateException("Zone non valide.");
         for(Joueur p : i.getJoueurs()) if(p != this && p.contientArtefact(e)) throw new IllegalStateException("Artefact déjà pris par un autre joueur.");
         int ind = switch(e){
             case eau -> 0;
@@ -223,6 +229,10 @@ public class Joueur {
             retirerCarte(c);
         }
         else throw new IllegalStateException("Carte non jouable.");
+    }
+    public Carte getCarte(int i){
+        if(i < 0 || i >= cartes_joueur.size()) throw new IllegalArgumentException("Index invalide.");
+        return cartes_joueur.get(i);
     }
 }
 
