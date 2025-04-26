@@ -9,6 +9,7 @@ public class Jeu {
     private int tour = 0;
     private boolean partieTerminee = false;
 
+
     public Jeu(){ 
         i = new Ile(6, 6); 
         paquet = new PaquetdeCartes();
@@ -207,6 +208,7 @@ public class Jeu {
     public static void main(String[] args) {
         Jeu jeu = new Jeu();
         SwingUtilities.invokeLater(() -> new FenetreJeu(jeu.i));
+        
         // Si tu veux en mode console sans Swing :
         jeu.jouerPartie();
     }
