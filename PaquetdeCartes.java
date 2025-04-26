@@ -44,7 +44,7 @@ public class PaquetdeCartes{
         return carte;
     }
     
-    public Carte tireerCarte_inondations(){
+    public Carte tirerCarte_inondations(){
         Carte carte = inondations.get(inondations.size() - 1);
         inondations.remove(inondations.size() - 1);
         return carte;
