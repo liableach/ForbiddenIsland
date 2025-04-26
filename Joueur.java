@@ -24,7 +24,8 @@ public class Joueur {
     private List<Carte>cles; // 0 - eau, 1 - feu, 2 - terre, 3 - air
     private Image image;
 
-    public Joueur(int nom, Zone position, Image image, int i){
+    public Joueur(int nom, Zone position, Image image, int i, Role role) {
+        this.role = role;
         this.nom = nom;
         this.id = i;
         this.position = position;
@@ -33,6 +34,7 @@ public class Joueur {
         this.cles = new ArrayList<Carte>(4); 
         this.image = image;
     }
+    public Role getRole(){ return role; }
     public int getNbActions(){ return nbActions; }
     public boolean estVivant(){ return alive; }
     public Zone getPos(){ return position; }
@@ -114,7 +116,10 @@ public class Joueur {
     public void donnerCarte(Joueur j, Carte c){
         if(this.role != Role.messager || j.position != this.position) return;
         String s = c.getTypeCarte().toString();
-        if (!s.contains("tresor")) throw new IllegalStateException("Carte non échangeable.");
+        if (!s.contains("tresor")){
+            System.out.println("Carte non valide.");
+            return;
+        };
         if(cartes_joueur.contains(c) && j.nbCartes() < 5){
             retirerCarte(c);
             j.ajouterCarte(c);
@@ -144,11 +149,26 @@ public class Joueur {
     private boolean correspond(TypeCarte t, Element e){ return (t.getElement() == e); }
     public void recupererArtefact(Element e, Ile i, PaquetdeCartes cartes){
         Zone z = position;
-        if(z.getType() != Type.element_a && e == Element.air) throw new IllegalStateException("Zone non valide.");
-        else if(z.getType() != Type.element_f && e == Element.feu) throw new IllegalStateException("Zone non valide.");
-        else if(z.getType() != Type.element_t && e == Element.terre) throw new IllegalStateException("Zone non valide.");
-        else if(z.getType() != Type.element_e && e == Element.eau) throw new IllegalStateException("Zone non valide.");
-        for(Joueur p : i.getJoueurs()) if(p != this && p.contientArtefact(e)) throw new IllegalStateException("Artefact déjà pris par un autre joueur.");
+        if(z.getType() != Type.element_a && e == Element.air){
+            System.out.println("Zone non valide.");
+            return;
+        }
+        else if(z.getType() != Type.element_f && e == Element.feu){
+            System.out.println("Zone non valide.");
+            return;
+        }
+        else if(z.getType() != Type.element_t && e == Element.terre){
+            System.out.println("Zone non valide.");
+            return;
+        }
+        else if(z.getType() != Type.element_e && e == Element.eau){
+            System.out.println("Zone non valide.");
+            return;
+        }
+        for(Joueur p : i.getJoueurs()) if(p != this && p.contientArtefact(e)){
+            System.out.println("Artefact déjà pris par un autre joueur.");
+            return;
+        }
         int ind = switch(e){
             case eau -> 0;
             case feu -> 1;
@@ -170,7 +190,7 @@ public class Joueur {
             }
             i.getZone(position.getX(), position.getY()).setType(Type.normale);
         }
-        else throw new IllegalStateException("Pas assez de cartes.");
+        else System.out.println("Pas assez de cartes.");
     }
     public void ajouterCarte(Carte c){ cartes_joueur.add(c); }
     public void retirerCarte(Carte c){ cartes_joueur.remove(c); }
@@ -228,12 +248,16 @@ public class Joueur {
             paquet.poser(c);
             retirerCarte(c);
         }
-        else throw new IllegalStateException("Carte non jouable.");
+        else System.out.println("Carte non jouable.");
     }
     public Carte getCarte(int i){
-        if(i < 0 || i >= cartes_joueur.size()) throw new IllegalArgumentException("Index invalide.");
+        if(i < 0 || i >= cartes_joueur.size()){
+            System.out.println("Index invalide.");
+            return null;
+        }
         return cartes_joueur.get(i);
     }
+    public void finTour(){ nbActions = 0;}
 }
 
 enum Role{ pilote, ingenieur, explorateur, navigateur, plongeur, messager }

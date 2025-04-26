@@ -28,27 +28,45 @@ public class PaquetdeCartes{
         }
 
     public void melanger_tresor(){
+        if(tresor.isEmpty()) return;
         Collections.shuffle(tresor);
     }
 
     public void melanger_inondations(){
+        if(inondations.isEmpty()) return;
         Collections.shuffle(inondations);
     }
     public void melanger_defausse_inondations(){
+        if(defausseInondations.isEmpty()) return;
         Collections.shuffle(defausseInondations);
     }
+    public void melanger_defausse_tresors(){
+        if(defausseTresors.isEmpty()) return;
+        Collections.shuffle(defausseTresors);
+    }
+    public int getTailleInondations(){ return inondations.size(); }
     public int getTailleDefausseInondations(){ return defausseInondations.size(); }
+    public int getTailleTresors(){ return tresor.size(); }
+    public int getTailleDefausseTresors(){ return defausseTresors.size(); }
     public Carte tirerCarte_tresor(){
-        Carte carte = tresor.get(tresor.size()-1);
-        tresor.remove(tresor.size() - 1);
+        if (tresor.isEmpty()) {
+            melanger_defausse_tresors();
+            tresor.addAll(defausseTresors);
+            defausseTresors.clear();
+        }
+        Carte carte = tresor.remove(tresor.size() - 1);
         return carte;
     }
     
     public Carte tirerCarte_inondations(){
-        Carte carte = inondations.get(inondations.size() - 1);
-        inondations.remove(inondations.size() - 1);
-        return carte;
+        if(inondations.isEmpty()) {
+            melanger_defausse_inondations();
+            inondations.addAll(defausseInondations);
+            defausseInondations.clear();
+        }
 
+        Carte carte = inondations.remove(inondations.size() - 1);
+        return carte;
     }
 
     // Cette méthode dépose la carte dans la défausse
@@ -70,7 +88,7 @@ public class PaquetdeCartes{
 
     public void replacerAuSommet_inondations(){    
         for(int i = 0; i<defausseInondations.size(); i++){
-            tresor.add(defausseInondations.get( i )) ;
+            inondations.add(defausseInondations.get( i )) ;
         }
         defausseInondations.clear();
     }

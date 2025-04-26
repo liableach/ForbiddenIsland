@@ -37,11 +37,18 @@ public class Jeu {
 
         // Phase d'actions du joueur (gérée ailleurs : FenetreJeu ou Vue)
         // -> ici on suppose que les 3 actions sont faites manuellement
+        while(joueur.getNbActions() != 0) {
+        System.out.println(paquet.getTailleDefausseTresors() + " cartes tresor dans la défausse.");
+        System.out.println(paquet.getTailleTresors() + " cartes tresor");
+        System.out.println(paquet.getTailleDefausseInondations() + " cartes inondation dans la défausse.");
+        System.out.println(paquet.getTailleInondations() + " cartes inondation");
         System.out.println("Actions disponibles pour " + joueur.getId() + " (" + joueur.getNbActions() + " actions restantes) :");
         System.out.println("1. Se déplacer");
         System.out.println("2. Assécher une zone");
         System.out.println("3. Donner une carte");
         System.out.println("4. Récupérer un artefact");
+        System.out.println("5. Déplacer un joueur (navigateur)");
+        System.out.println("6. Fin du tour");
         Scanner sc = new Scanner(System.in);
         int choix = sc.nextInt();
         switch(choix){
@@ -97,26 +104,49 @@ public class Jeu {
                 break;
             }
             break;
+        case 5: 
+            if(joueur.getRole() != Role.navigateur) {
+                System.out.println("Vous n'êtes pas le navigateur !");
+                break;
+            }
+            System.out.println("Précisez le joueur à déplacer (id) et la zone (x, y)");
+            idJoueur = sc.nextInt();
+            x = sc.nextInt();
+            y = sc.nextInt();
+            Joueur joueurCible2 = i.getJoueurs().get(idJoueur);
+            Zone z2 = i.getZone(x, y);
+            if (z2 == null || z2.getType() == Type.vide  || z2.getType() == Type.air || z2.getType() == Type.terre || z2.getType() == Type.eau || z2.getType() == Type.feu) {
+                System.out.println("Zone invalide !");
+                break;
+            }
+            else joueur.deplacerAutreJoueur(joueurCible2, z2, i);
+            break;
+        case 6:
+            System.out.println("Fin du tour.");
+            joueur.finTour();
+            break;
         }
+    }
             // Fin du tour : pioche 2 cartes Trésor
             for (int j = 0; j < 2; j++) {
                 Carte c = paquet.tirerCarte_tresor();
-                monteeDesEaux();
                 joueur.ajouterCarte(c);
+                monteeDesEaux();
             }
             // Pioche de cartes inondation selon le niveau
             for (int j = 0; j < nombreCartesInondation(); j++) {
                 Carte c = paquet.tirerCarte_inondations();
                 int n = c.getN();
                 int nn;
-                if(n < 7) nn = n + 2;
-                else if(n < 12) nn = n + 5;
-                else if(n < 24) nn = n + 6;
-                else if(n < 30) nn = n + 7;
+                if(n < 7) nn = n - 2;
+                else if(n < 12) nn = n - 5;
+                else if(n < 24) nn = n - 6;
+                else if(n < 30) nn = n - 7;
                 else nn = n + 10;
                 Zone z = i.getZone(nn);
-                z.inonder();
+                if(z != null) z.inonder();
                 paquet.poser(c);
+
             }
             // Vérifications après le tour
             if (checkVictoire()) {

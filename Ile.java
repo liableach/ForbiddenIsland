@@ -10,6 +10,7 @@ public class Ile{
     private int currentJoueur;
 
     public Ile(int x, int y){
+        currentJoueur = 0;
         joueurs = new ArrayList<Joueur>(4);
         largueur = x; hauteur = y;
         grille = new Zone[x][y];
@@ -35,7 +36,7 @@ public class Ile{
             int x1 = r.nextInt(x-1), y1 = r.nextInt(y-1);
             if(grille[x1][y1].getType() == Type.normale){
                 fait = false;
-                grille[x1][y1] = new Zone(x1, y1, Type.heliport);
+                grille[x1][y1].setType(Type.heliport);
             }
         }
         for(int i = 0; i < 2; i++){
@@ -78,10 +79,10 @@ public class Ile{
                         }
                     }   
         }
-        joueurs.add(new Joueur(0, getZoneHeliport(), new ImageIcon(getClass().getResource("data/Joueurs/explorateur.png")).getImage(), 0) );
-        joueurs.add(new Joueur(1, getZoneHeliport(), new ImageIcon(getClass().getResource("data/Joueurs/navigateur.png")).getImage(), 1));
-        joueurs.add(new Joueur(2, getZoneHeliport(), new ImageIcon(getClass().getResource("data/Joueurs/pilote.png")).getImage(),2));
-        joueurs.add(new Joueur(3, getZoneHeliport(), new ImageIcon(getClass().getResource("data/Joueurs/plongeur.png")).getImage(),3));
+        joueurs.add(new Joueur(0, getZoneHeliport(), new ImageIcon(getClass().getResource("data/Joueurs/explorateur.png")).getImage(), 0, Role.pilote));
+        joueurs.add(new Joueur(1, getZoneHeliport(), new ImageIcon(getClass().getResource("data/Joueurs/navigateur.png")).getImage(), 1, Role.navigateur));
+        joueurs.add(new Joueur(2, getZoneHeliport(), new ImageIcon(getClass().getResource("data/Joueurs/pilote.png")).getImage(),2, Role.messager));
+        joueurs.add(new Joueur(3, getZoneHeliport(), new ImageIcon(getClass().getResource("data/Joueurs/plongeur.png")).getImage(),3, Role.plongeur));
     }
     public Zone getZone(int x, int y){
         if(x < 0 || x >= largueur || y < 0 || y >= hauteur) return null;
@@ -96,9 +97,9 @@ public class Ile{
         return null;
     }  
     public Zone getZoneHeliport(){
-        for(int i = 0; i < largueur; i++){
-            for(int j = 0; j < hauteur; j++){
-                if(grille[i][j].getType() == Type.heliport) return grille[i][j];
+        for(Zone[] row : grille){
+            for(Zone z : row){
+                if(z.getType() == Type.heliport) return z;
             }
         }
         return null;
@@ -107,11 +108,7 @@ public class Ile{
     public ArrayList<Joueur> getJoueurs(){ return joueurs; }
     public int getCurrentJoueur(){ return currentJoueur; }
     public void setCurrentJoueur(int i){ currentJoueur = i; }
-    public boolean heliportSubmerge(){
-        Zone h = getZoneHeliport();
-        if(h.getEtat() == Etat.submergee) return true;
-        return false;
-    }
+    public boolean heliportSubmerge(){ return getZoneHeliport().getEtat() == Etat.submergee; }
     public int getArtefactsRecuperes(){
         int artefacts = 0;
         for(Joueur j : joueurs){
@@ -138,11 +135,17 @@ public class Ile{
     public boolean artefactPerdu(){
         for(Element e : Element.values()){
             if(tuilesArtefact(e) == 0){
+                boolean found = false;
                 for(Joueur j : joueurs){
-                    if(j.contientArtefact(e)) return false;
+                    if(j.contientArtefact(e)){
+                        found = true;
+                        break;
+                    }
                 }
+                if(!found) return true;
             }
         }
-        return true;
+        return false;
     }
+    
 }
