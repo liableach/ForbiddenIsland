@@ -27,20 +27,20 @@ class Vue extends JPanel {
 
         g.drawImage(fond, 0, 0, Width, Height-50, null); // Affichage de l'image de fond
         //Positions des cartes inondations
-        g.drawRect( Width/2, 10, 150, 200);
-        g.fillRect( Width/2, 10, 150, 200);
+        g.drawRect( Width/2, 50, 150, 200);
+        g.fillRect( Width/2, 50, 150, 200);
 
         //Positions des cartes trésors
-        g.drawRect( Width/2, 150 + 100, 150, 200);
-        g.fillRect( Width/2, 150 + 100, 150, 200);
+        g.drawRect( Width/2, 150 + 100 + 40, 150, 200);
+        g.fillRect( Width/2, 150 + 100 + 40, 150 , 200);
 
         //Positions de la défausse inondations
-        g.drawRect( Width/2 + 200, 10, 150, 200);
-        g.fillRect( Width/2 + 200, 10, 150, 200);
+        g.drawRect( Width/2 + 200, 50, 150, 200);
+        g.fillRect( Width/2 + 200, 50, 150, 200);
 
         //Positions de la défausse trésors
-        g.drawRect( Width/2 + 200, 150 + 100, 150, 200);
-        g.fillRect( Width/2 + 200, 150 + 100, 150, 200);
+        g.drawRect( Width/2 + 200, 150 + 100 + 40, 150, 200);
+        g.fillRect( Width/2 + 200, 150 + 100 + 40, 150, 200);
 
         //Position de la vue "Tour de "
         g.drawRect(Width-300, 10, 300, 70);
@@ -55,13 +55,13 @@ class Vue extends JPanel {
                 Zone z = ile.getZone(x, y);
                 if (z == null || z.getType() == Type.vide) continue;
                 switch (z.getType()) {
-                    case vide -> g.setColor(Color.WHITE);
                     case normale -> g.setColor(Color.LIGHT_GRAY);
                     case heliport -> g.setColor(Color.YELLOW);
                     case element_a -> g.setColor(Color.CYAN);
                     case element_t -> g.setColor(Color.GRAY);
                     case element_e -> g.setColor(Color.BLUE);
                     case element_f -> g.setColor(Color.RED);
+                    default -> g.setColor(Color.WHITE);
                 }
                 switch (z.getEtat()){
                     case inondee -> g.setColor(Color.CYAN);
@@ -70,10 +70,10 @@ class Vue extends JPanel {
                 g.fillRect(x * 150, y * 170 , 150 , 170);
                 g.setColor(Color.BLACK);
                 g.drawRect(x * 150 , y * 170 , 150, 170);
-
-                g.drawString(z.getType().toString(), x * 150 + 10 , y * 170 + 20 );
+                g.drawString(z.getType().toString(), x*150 + 50, y*170 + 85);
             }
         }
+        
 
         //affichage des artefacts en sur les 4 coins de l'île 100 x 100
         g.drawImage(Calice_de_l_onde, 0, 0, 150, 170, null);
