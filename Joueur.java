@@ -4,14 +4,16 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Joueur {
     private int nom;
+    private int id;
     private Zone position;
-    private boolean alive;
+    private boolean alive = true;
     private Role role;
     private boolean actionSpeciale = false;
     private int nbActions = 3;
@@ -22,8 +24,9 @@ public class Joueur {
     private List<Carte>cles; // 0 - eau, 1 - feu, 2 - terre, 3 - air
     private Image image;
 
-    public Joueur(int nom, Zone position, Image image){
+    public Joueur(int nom, Zone position, Image image, int i){
         this.nom = nom;
+        this.id = i;
         this.position = position;
         this.artefacts = new ArrayList<>();
         this.cartes_joueur = new ArrayList<Carte>(5);
@@ -32,6 +35,7 @@ public class Joueur {
     }
     public int getNbActions(){ return nbActions; }
     public boolean estVivant(){ return alive; }
+    public Zone getPos(){ return position; }
     
     public void actionFaite(){ nbActions--; }
     public void actionsReset(){ nbActions = 3; }
@@ -54,8 +58,8 @@ public class Joueur {
         }
     }
     
-    public boolean deplacerAutreJoueur(Joueur cible, Zone destination, Ile ile) {
-        if (this.role != Role.navigateur || cible == this || !actionSpeciale) return false;
+    public void deplacerAutreJoueur(Joueur cible, Zone destination, Ile ile) {
+        if (this.role != Role.navigateur || cible == this || !actionSpeciale) return;
 
         List<Zone> adjacentes1 = cible.position.getZonesAdjacentes(ile, false);
         List<Zone> adjacentes2 = new ArrayList<>();
@@ -68,9 +72,8 @@ public class Joueur {
             cible.position = destination;
             actionFaite();
             actionSpeciale = true;
-            return true;
         }
-        return false;
+        return;
     }
     
     private boolean cheminPlongeurPossible(Zone destination, Ile ile){
@@ -89,7 +92,7 @@ public class Joueur {
                 }
             }
         }
-        return false;
+        return true;
     }    
     public void assecher(Zone z, Ile ile){
         boolean adjacente;
@@ -177,10 +180,50 @@ public class Joueur {
         }
         return false;
     }
-
     public Image getImage(){
         return this.image;
-    } 
+    }
+    public void jouerCarteSpeciale(Carte c, Ile i, PaquetdeCartes paquet){
+        if(c.getTypeCarte() == TypeCarte.helicoptere){
+            System.out.println("Action 1 ou 2?");
+            Scanner sc = new Scanner(System.in);
+            int action = sc.nextInt();
+            if(action == 1){
+                System.out.println("Déplacement vers une autre zone, preciser la zone : (x, y) et aprés le id de joueur à déplacer");
+                sc = new Scanner(System.in);
+                int x = sc.nextInt();
+                int y = sc.nextInt();
+                Zone z = i.getZone(x, y);
+                int j = sc.nextInt();
+                Joueur cible = i.getJoueurs().get(j);
+                if(cible == this) deplacer(z, i);
+                else deplacerAutreJoueur(cible, z, i);
+                paquet.poser(c);
+                retirerCarte(c);
+            }
+            else if(action == 2){
+                System.out.println("Déplacement vers l'heliport");
+                Zone h = i.getZoneHeliport();
+                for(Joueur j : i.getJoueurs()){
+                    if(j == this) continue;
+                    deplacerAutreJoueur(j, h, i);
+                }
+                paquet.poser(c);
+                retirerCarte(c);
+            }
+        }
+        else if(c.getTypeCarte() == TypeCarte.sacs_de_sable){
+            System.out.println("Préciser la zone à assécher : (x, y)");
+            Scanner sc = new Scanner(System.in);
+            int x = sc.nextInt();
+            int y = sc.nextInt();
+            Zone z = i.getZone(x, y);
+            z.assecher();
+            paquet.poser(c);
+            retirerCarte(c);
+        }
+        else throw new IllegalStateException("Carte non jouable.");
+    }
 }
 
 enum Role{ pilote, ingenieur, explorateur, navigateur, plongeur, messager }

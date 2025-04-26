@@ -2,7 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Zone{
-    private final int x, y;
+    private final int x, y; 
+    private int n;
     private Etat etat;
     private Type type;
 
@@ -12,9 +13,17 @@ public class Zone{
         this.etat = Etat.normale;
         this.type = type;
     }
+    public Zone(int x, int y, Type type, int n){
+        this.x = x;
+        this.y = y;
+        this.n = n;
+        this.etat = Etat.normale;
+        this.type = type;
+    }
 
     public int getX(){ return x ;}
     public int getY(){ return y ;}
+    public int getN(){ return n ;}
     public int getX150(){return x * 150;}
     public int getY170(){return y * 170;}
     public Etat getEtat(){ return etat;}
