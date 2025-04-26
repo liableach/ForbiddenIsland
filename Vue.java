@@ -14,7 +14,8 @@ class Vue extends JPanel {
     private final Image fond = new ImageIcon(getClass().getResource("data/L_ile_interdite_teaseur.jpg")).getImage();
     private final Image heliport_non_inondee = new ImageIcon(getClass().getResource("data/heliport_non_inondee.png")).getImage();
     private final Image heliport_inondee = new ImageIcon(getClass().getResource("data/heliport_inondee.png")).getImage();
-
+    private final Image cartes_inondationsImage = new ImageIcon(getClass().getResource("data/cartes_inondations.png")).getImage();
+    private final Image cartes_tresorImage = new ImageIcon(getClass().getResource("data/cartes_tresors.png")).getImage();
 
     public Vue(Ile ile) {
         this.ile = ile;
@@ -29,10 +30,12 @@ class Vue extends JPanel {
         //Positions des cartes inondations
         g.drawRect( Width/2, 50, 150, 200);
         g.fillRect( Width/2, 50, 150, 200);
-
+        g.drawImage(cartes_inondationsImage, Width/2, 50, 150, 200, null);
+        
         //Positions des cartes trésors
         g.drawRect( Width/2, 150 + 100 + 40, 150, 200);
         g.fillRect( Width/2, 150 + 100 + 40, 150 , 200);
+        g.drawImage(cartes_tresorImage, Width/2, 150 + 100 + 40, 150, 200, null);
 
         //Positions de la défausse inondations
         g.drawRect( Width/2 + 200, 50, 150, 200);
