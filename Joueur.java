@@ -13,7 +13,6 @@ public class Joueur {
     private int nom;
     private int id;
     private Zone position;
-    private boolean alive = true;
     private Role role;
     private boolean actionSpeciale = false;
     private int nbActions = 3;
@@ -36,7 +35,6 @@ public class Joueur {
     }
     public Role getRole(){ return role; }
     public int getNbActions(){ return nbActions; }
-    public boolean estVivant(){ return alive; }
     public Zone getPos(){ return position; }
     //public String getNom(){ return nom; }
     public int getId(){ return id; }
@@ -201,10 +199,7 @@ public class Joueur {
         return cartes_joueur.get(cartes_joueur.size() - 1);
     }
     public boolean monteeDesEauxTiree(){
-        for(Carte c : cartes_joueur){
-            if(c.getTypeCarte() == TypeCarte.montee_des_eaux) return true;
-        }
-        return false;
+        return getDerniereCarte().getTypeCarte() == TypeCarte.montee_des_eaux;
     }
     public Image getImage(){
         return this.image;

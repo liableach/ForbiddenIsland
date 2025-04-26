@@ -8,10 +8,19 @@ public class Jeu {
     private int niveau = 0;
     private int tour = 0;
     private boolean partieTerminee = false;
+    private FenetreJeu fenetre;      // new
+    public void setFenetre(FenetreJeu f) { this.fenetre = f; }
 
     public Jeu(){ 
         i = new Ile(6, 6); 
         paquet = new PaquetdeCartes();
+    }
+
+    private void majAffichage() {
+        if (fenetre != null) {
+            // ensure we ask Swing to repaint on the EDT
+            SwingUtilities.invokeLater(() -> fenetre.getVue().update());
+        }
     }
     public Ile getIle(){ return i; }
     public int getNiveau() { return niveau; }
@@ -37,7 +46,9 @@ public class Jeu {
 
         // Phase d'actions du joueur (gérée ailleurs : FenetreJeu ou Vue)
         // -> ici on suppose que les 3 actions sont faites manuellement
+        Scanner sc = new Scanner(System.in);    
         while(joueur.getNbActions() != 0) {
+        System.out.println("Niveau d'eau : " + niveau);
         System.out.println(paquet.getTailleDefausseTresors() + " cartes tresor dans la défausse.");
         System.out.println(paquet.getTailleTresors() + " cartes tresor");
         System.out.println(paquet.getTailleDefausseInondations() + " cartes inondation dans la défausse.");
@@ -49,7 +60,6 @@ public class Jeu {
         System.out.println("4. Récupérer un artefact");
         System.out.println("5. Déplacer un joueur (navigateur)");
         System.out.println("6. Fin du tour");
-        Scanner sc = new Scanner(System.in);
         int choix = sc.nextInt();
         switch(choix){
         case 1:
@@ -160,8 +170,10 @@ public class Jeu {
             if (i.getCurrentJoueur() == i.getJoueurs().size()-1) {
                 i.setCurrentJoueur(0);
             }
-            else i.setCurrentJoueur(i.getCurrentJoueur() + 1);
+            else i.setCurrentJoueur(i.getCurrentJoueur()+1);
             incrementerTour();
+            joueur.actionsReset();
+            majAffichage();
     }
 
     private int nombreCartesInondation() {
@@ -175,18 +187,7 @@ public class Jeu {
     private boolean checkVictoire() { return i.getArtefactsRecuperes() == 4 && i.tousJoueursSurHeliport(); }
 
     private boolean checkDefaite() {
-        // Défaite si :
-        // - le niveau d'eau est au max
-        if (niveau >= 10) return true;
-        // - héliport submergé
-        if (i.heliportSubmerge()) return true;
-        // - artefact irrécupérable
-        if (i.artefactPerdu()) return true;
-        // - un joueur meurt
-        for (Joueur joueur : i.getJoueurs()) {
-            if (!joueur.estVivant()) return true;
-        }
-        return false;
+        return (niveau >= 10) || (i.heliportSubmerge()) || (i.artefactPerdu()) || (i.checkJoueurMort());
     }
 
     private void finPartie(boolean victoire) {
@@ -206,8 +207,14 @@ public class Jeu {
 
     public static void main(String[] args) {
         Jeu jeu = new Jeu();
-        SwingUtilities.invokeLater(() -> new FenetreJeu(jeu.i));
-        // Si tu veux en mode console sans Swing :
+        // 1) create your Swing window on the EDT
+        SwingUtilities.invokeLater(() -> {
+            FenetreJeu fen = new FenetreJeu(jeu.getIle());
+            jeu.setFenetre(fen);
+        });
+        // 2) run your console/game loop on the main thread
         jeu.jouerPartie();
     }
+    
+    
 }

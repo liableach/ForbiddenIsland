@@ -16,7 +16,7 @@ public class Ile{
         grille = new Zone[x][y];
         for(int i = 0; i < x; i++){
             for(int j = 0; j < y; j++){
-                grille[i][j] = new Zone(i, j, Type.normale, x + y*6);
+                grille[i][j] = new Zone(i, j, Type.normale, i + j*6);
             }
         }
         grille[0][0].setType(Type.eau);
@@ -108,7 +108,10 @@ public class Ile{
     public ArrayList<Joueur> getJoueurs(){ return joueurs; }
     public int getCurrentJoueur(){ return currentJoueur; }
     public void setCurrentJoueur(int i){ currentJoueur = i; }
-    public boolean heliportSubmerge(){ return getZoneHeliport().getEtat() == Etat.submergee; }
+    public boolean heliportSubmerge(){ 
+        if(getZoneHeliport() == null || getZoneHeliport().getType() == Type.vide || getZoneHeliport().getEtat() == Etat.submergee) return true;
+        return false;
+    }
     public int getArtefactsRecuperes(){
         int artefacts = 0;
         for(Joueur j : joueurs){
@@ -147,5 +150,10 @@ public class Ile{
         }
         return false;
     }
-    
+    public boolean checkJoueurMort(){
+        for(Joueur j : joueurs){
+            if(j.getPos().getEtat() == Etat.submergee) return true;
+        }
+        return false;
+    }
 }

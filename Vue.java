@@ -22,7 +22,12 @@ class Vue extends JPanel {
         setPreferredSize(new Dimension(Width, Height)); // 100px par case
     }
 
-    @Override
+    public void update() {
+        // if you ever swap out the Ile entirely, you'd do: this.ile = newIle;
+        // but since you mutate the same Ile, you just need to repaint.
+        revalidate();   // (optional, only if your panel’s size/layout changed)
+        repaint();
+    }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -69,6 +74,7 @@ class Vue extends JPanel {
                 switch (z.getEtat()){
                     case inondee -> g.setColor(Color.CYAN);
                     case submergee -> g.setColor(Color.WHITE);
+                    default -> g.setColor(Color.LIGHT_GRAY);
                 }
                 g.fillRect(x * 150, y * 170 , 150 , 170);
                 g.setColor(Color.BLACK);
@@ -85,7 +91,7 @@ class Vue extends JPanel {
         g.drawImage(Statue_du_Zephir, Width/3 + 110, Height - 230 , 150, 170, null);
 
         //affichage de l'héliport
-        g.drawImage(heliport_non_inondee,ile.getZoneHeliport().getX150() ,ile.getZoneHeliport().getY170(), 150, 170, null);
+        //g.drawImage(heliport_non_inondee,ile.getZoneHeliport().getX150() ,ile.getZoneHeliport().getY170(), 150, 170, null);
 
         ArrayList<Joueur> joueurs = ile.getJoueurs();
         //affichage des pions sur l'île(joueurs) en début de partie.

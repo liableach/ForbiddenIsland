@@ -59,15 +59,13 @@ public class PaquetdeCartes{
     }
     
     public Carte tirerCarte_inondations(){
-        if(inondations.isEmpty()) {
-            melanger_defausse_inondations();
-            inondations.addAll(defausseInondations);
-            defausseInondations.clear();
+            if (inondations.isEmpty()) {
+                melanger_defausse_inondations();
+                inondations.addAll(defausseInondations);
+                defausseInondations.clear();
+            }
+            return inondations.remove(inondations.size() - 1);
         }
-
-        Carte carte = inondations.remove(inondations.size() - 1);
-        return carte;
-    }
 
     // Cette méthode dépose la carte dans la défausse
     public void poser(Carte carte){
