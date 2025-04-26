@@ -66,7 +66,7 @@ public class Zone{
     
     public void inonder(){ 
         if(etat == Etat.normale && type != Type.vide) etat = Etat.inondee;
-        if(etat == Etat.inondee) submerger();
+        else if(etat == Etat.inondee) submerger();
     }
     public void submerger(){ 
         etat = Etat.submergee;
