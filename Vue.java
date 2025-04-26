@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 class Vue extends JPanel {
     private Ile ile;
+
     public int Width = 1920;
     public int Height = 1080;
     private final Image Calice_de_l_onde = new ImageIcon(getClass().getResource("data/Calice_de_l_onde.png")).getImage();
@@ -91,14 +92,30 @@ class Vue extends JPanel {
         g.drawImage(Statue_du_Zephir, Width/3 + 110, Height - 230 , 150, 170, null);
 
         //affichage de l'héliport
+<<<<<<< HEAD
         if(ile.getZoneHeliport().getEtat() == Etat.normale)g.drawImage(heliport_non_inondee,ile.getZoneHeliport().getX150() ,ile.getZoneHeliport().getY170(), 150, 170, null);
         else g.drawImage(heliport_inondee,ile.getZoneHeliport().getX150() ,ile.getZoneHeliport().getY170(), 150, 170, null);
+=======
+        //g.drawImage(heliport_non_inondee,ile.getZoneHeliport().getX150() ,ile.getZoneHeliport().getY170(), 150, 170, null);
+        
+>>>>>>> 7d682c5769517e1669228fcc8d696e327b96f6db
 
         ArrayList<Joueur> joueurs = ile.getJoueurs();
+        Joueur j1 = joueurs.get(0);
+        Joueur j2 = joueurs.get(1);
+        Joueur j3 = joueurs.get(2);
+        Joueur j4 = joueurs.get(3);
+
         //affichage des pions sur l'île(joueurs) en début de partie.
-        g.drawImage(joueurs.get(0).getImage(), ile.getZoneHeliport().getX150() + 5 ,ile.getZoneHeliport().getY170() + 5, 40, 40, null);
-        g.drawImage(joueurs.get(1).getImage(), ile.getZoneHeliport().getX150() + 100 ,ile.getZoneHeliport().getY170() + 5 , 40, 40, null);
-        g.drawImage(joueurs.get(2).getImage(), ile.getZoneHeliport().getX150() + 5 ,ile.getZoneHeliport().getY170() + 110 , 40, 40, null);
-        g.drawImage(joueurs.get(3).getImage(), ile.getZoneHeliport().getX150()  + 100,ile.getZoneHeliport().getY170() + 110, 40, 40, null);
+        g.drawImage(joueurs.get(0).getImage(), j1.getX() + 5 ,  j1.getY() + 5, 40, 40, null);
+        g.drawImage(joueurs.get(1).getImage(), j2.getX() + 100 ,j2.getY() + 5 , 40, 40, null);
+        g.drawImage(joueurs.get(2).getImage(), j3.getX() + 5 ,  j3.getY() + 110 , 40, 40, null);
+        g.drawImage(joueurs.get(3).getImage(), j4.getX()  + 100,j4.getY() + 110, 40, 40, null);
+
     }
+    @Override
+    public void update(Graphics g) {
+        super.update(g);
+    }
+    
 }

@@ -11,6 +11,7 @@ public class Jeu {
     private FenetreJeu fenetre;      // new
     public void setFenetre(FenetreJeu f) { this.fenetre = f; }
 
+
     public Jeu(){ 
         i = new Ile(6, 6); 
         paquet = new PaquetdeCartes();

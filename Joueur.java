@@ -33,6 +33,8 @@ public class Joueur {
         this.cles = new ArrayList<Carte>(4); 
         this.image = image;
     }
+    public int getX(){return this.position.getX150(); }
+    public int getY(){return this.position.getY170(); }
     public Role getRole(){ return role; }
     public int getNbActions(){ return nbActions; }
     public Zone getPos(){ return position; }
