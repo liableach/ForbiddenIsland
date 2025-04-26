@@ -109,8 +109,16 @@ public class Jeu {
         }
     }
 
+    public void jouerPartie() {
+        while (!partieTerminee) {
+            tourJoueur();
+        }
+    }
+
     public static void main(String[] args) {
         Jeu jeu = new Jeu();
         SwingUtilities.invokeLater(() -> new FenetreJeu(jeu.i));
+        // Si tu veux en mode console sans Swing :
+        jeu.jouerPartie();
     }
 }
