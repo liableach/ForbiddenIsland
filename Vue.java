@@ -91,7 +91,8 @@ class Vue extends JPanel {
         g.drawImage(Statue_du_Zephir, Width/3 + 110, Height - 230 , 150, 170, null);
 
         //affichage de l'héliport
-        //g.drawImage(heliport_non_inondee,ile.getZoneHeliport().getX150() ,ile.getZoneHeliport().getY170(), 150, 170, null);
+        if(ile.getZoneHeliport().getEtat() == Etat.normale)g.drawImage(heliport_non_inondee,ile.getZoneHeliport().getX150() ,ile.getZoneHeliport().getY170(), 150, 170, null);
+        else g.drawImage(heliport_inondee,ile.getZoneHeliport().getX150() ,ile.getZoneHeliport().getY170(), 150, 170, null);
 
         ArrayList<Joueur> joueurs = ile.getJoueurs();
         //affichage des pions sur l'île(joueurs) en début de partie.
