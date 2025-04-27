@@ -101,9 +101,4 @@ class Vue extends JPanel {
         g.drawImage(Cristal_ardent,  0, Height - 230, 150, 170, null);
         g.drawImage(Statue_du_Zephir, Width/3 + 110, Height - 230 , 150, 170, null);
     }
-    @Override
-    public void update(Graphics g) {
-        super.update(g);
-    }
-    
 }
