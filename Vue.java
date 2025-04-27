@@ -92,13 +92,8 @@ class Vue extends JPanel {
         g.drawImage(Statue_du_Zephir, Width/3 + 110, Height - 230 , 150, 170, null);
 
         //affichage de l'héliport
-<<<<<<< HEAD
         if(ile.getZoneHeliport().getEtat() == Etat.normale)g.drawImage(heliport_non_inondee,ile.getZoneHeliport().getX150() ,ile.getZoneHeliport().getY170(), 150, 170, null);
         else g.drawImage(heliport_inondee,ile.getZoneHeliport().getX150() ,ile.getZoneHeliport().getY170(), 150, 170, null);
-=======
-        //g.drawImage(heliport_non_inondee,ile.getZoneHeliport().getX150() ,ile.getZoneHeliport().getY170(), 150, 170, null);
-        
->>>>>>> 7d682c5769517e1669228fcc8d696e327b96f6db
 
         ArrayList<Joueur> joueurs = ile.getJoueurs();
         Joueur j1 = joueurs.get(0);
@@ -112,10 +107,6 @@ class Vue extends JPanel {
         g.drawImage(joueurs.get(2).getImage(), j3.getX() + 5 ,  j3.getY() + 110 , 40, 40, null);
         g.drawImage(joueurs.get(3).getImage(), j4.getX()  + 100,j4.getY() + 110, 40, 40, null);
 
-    }
-    @Override
-    public void update(Graphics g) {
-        super.update(g);
     }
     
 }

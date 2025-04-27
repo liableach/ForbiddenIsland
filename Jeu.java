@@ -136,7 +136,9 @@ public class Jeu {
             System.out.println("Fin du tour.");
             joueur.finTour();
             break;
+        
         }
+
     }
             // Fin du tour : pioche 2 cartes Trésor
             for (int j = 0; j < 2; j++) {
