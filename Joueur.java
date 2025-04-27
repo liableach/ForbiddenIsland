@@ -3,7 +3,6 @@ import java.util.Queue;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Iterator;
@@ -16,43 +15,45 @@ public class Joueur {
     private Role role;
     private boolean actionSpeciale = false;
     private int nbActions = 3;
-    private boolean secondeAssechementIngenieur = false; // À réinitialiser à chaque tour
+    private boolean secondeAssechementIngenieur = false; // à réinitialiser à chaque tour
     private ArrayList<Element> artefacts;
     // j'ai ajouté ça pour les cartes du joueur
     private ArrayList<Carte> cartes_joueur;
-    private List<Carte>cles; // 0 - eau, 1 - feu, 2 - terre, 3 - air
+    //private List<Carte>cles; // 0 - eau, 1 - feu, 2 - terre, 3 - air
     private Image image;
 
-    public Joueur(int nom, Zone position, Image image, int i, Role role) {
-        this.role = role;
+    public Joueur(int nom, Zone position, int i) {
         this.nom = nom;
         this.id = i;
         this.position = position;
         this.artefacts = new ArrayList<>();
         this.cartes_joueur = new ArrayList<Carte>(5);
-        this.cles = new ArrayList<Carte>(4); 
-        this.image = image;
+        //this.cles = new ArrayList<Carte>(4); 
     }
+    public int getNom(){ return nom; }
     public int getX(){return this.position.getX150(); }
     public int getY(){return this.position.getY170(); }
     public Role getRole(){ return role; }
     public int getNbActions(){ return nbActions; }
     public Zone getPos(){ return position; }
-    //public String getNom(){ return nom; }
     public int getId(){ return id; }
+    public void setImage(Image image){ this.image = image; }
+    public void setRole(Role role){ this.role = role; }
     public void actionFaite(){ nbActions--; }
     public void actionsReset(){ nbActions = 3; }
     public void resetActionSpeciale(){ actionSpeciale = false; }
+    public ArrayList<Carte> getMain(){ return cartes_joueur; }
+
+    public void afficherArtefacts(){ for(Element e : artefacts) System.out.println(e.toString()); }
     public boolean deplacementPossible(Zone z, Ile ile){
         return switch (role){
             case explorateur -> position.estAdjacente(z, true);
             case pilote -> !actionSpeciale || position.estAdjacente(z, false);
-            case plongeur -> cheminPlongeurPossible(z, ile);
+            case plongeur -> cheminPlongeurPossible(z, ile) || position.estAdjacente(z, false); // déplacement normal pour lui-même
             case navigateur -> position.estAdjacente(z, false); // déplacement normal pour lui-même
             default -> position.estAdjacente(z, false);
         };
     }
-
     public void deplacer(Zone z, Ile i){ 
         if (deplacementPossible(z, i)){
             if (role == Role.pilote && !actionSpeciale && !position.estAdjacente(z, false)) actionSpeciale = true;
@@ -60,17 +61,13 @@ public class Joueur {
             actionFaite();
         }
     }
-    
     public void deplacerAutreJoueur(Joueur cible, Zone destination, Ile ile) {
-        if (this.role != Role.navigateur || cible == this || !actionSpeciale) return;
-
+        if (this.role != Role.navigateur || cible == this || actionSpeciale) return;
         List<Zone> adjacentes1 = cible.position.getZonesAdjacentes(ile, false);
         List<Zone> adjacentes2 = new ArrayList<>();
         for (Zone z1 : adjacentes1) adjacentes2.addAll(z1.getZonesAdjacentes(ile, false));
-    
         Set<Zone> deplacementsPossibles = new HashSet<>(adjacentes1);
         deplacementsPossibles.addAll(adjacentes2);
-    
         if (deplacementsPossibles.contains(destination)){
             cible.position = destination;
             actionFaite();
@@ -85,11 +82,11 @@ public class Joueur {
         Queue<Zone> aExplorer = new LinkedList<>();
         aExplorer.add(position);
         visitees.add(position);
-        while (!aExplorer.isEmpty()) {
+        while (!aExplorer.isEmpty()){
             Zone actuelle = aExplorer.poll();
             if (actuelle.equals(destination)) return false;
-            for (Zone voisine : actuelle.getZonesAdjacentes(ile, false)) {
-                if (!visitees.contains(voisine) /*&& voisine.getEtat() != Etat.submergee*/) {
+            for (Zone voisine : actuelle.getZonesAdjacentes(ile, false)){
+                if (!visitees.contains(voisine) /*&& voisine.getEtat() != Etat.submergee*/){
                     visitees.add(voisine);
                     aExplorer.add(voisine);
                 }
@@ -102,19 +99,24 @@ public class Joueur {
         if (role == Role.explorateur) adjacente = position.estAdjacente(z, true); // Diagonales incluses
         else adjacente = position.estAdjacente(z, false); // Seulement orthogonales
         boolean estZoneValide = z != null && (z == position || adjacente);
-        if (estZoneValide && z.getEtat() == Etat.inondee) {
+        if (estZoneValide && z.getEtat() == Etat.inondee){
             z.assecher();
-            if (role == Role.ingenieur) {
-                if (secondeAssechementIngenieur) {
+            if (role == Role.ingenieur){
+                if (secondeAssechementIngenieur){
                     actionFaite();
                     secondeAssechementIngenieur = false;
-                } else secondeAssechementIngenieur = true;
-            } else actionFaite();
+                } 
+                else secondeAssechementIngenieur = true;
+            } 
+            else actionFaite();
         }
     }
     public int nbCartes(){ return cartes_joueur.size(); }
     public void donnerCarte(Joueur j, Carte c){
-        if(this.role != Role.messager || j.position != this.position) return;
+        if(this.role != Role.messager || j.position != this.position){
+            System.out.println("Vous n'êtes pas dans la même zone et votre rôle n'est pas messager.");
+            return;
+        }
         String s = c.getTypeCarte().toString();
         if (!s.contains("tresor")){
             System.out.println("Carte non valide.");
@@ -127,9 +129,7 @@ public class Joueur {
         }
     }
     public boolean contientArtefact(Element e){
-        for(Element a : artefacts){
-            if(a == e) return true;
-        }
+        for(Element a : artefacts) if(a == e) return true;
         return false;
     }
     public List<Integer> compterCles(){
@@ -206,6 +206,10 @@ public class Joueur {
     public Image getImage(){
         return this.image;
     }
+    public boolean contientCarteSpeciale(){
+        for(Carte c : cartes_joueur) if(c.getTypeCarte() == TypeCarte.helicoptere || c.getTypeCarte() == TypeCarte.sacs_de_sable) return true; 
+        return false;
+    }
     public void jouerCarteSpeciale(Carte c, Ile i, PaquetdeCartes paquet){
         if(c.getTypeCarte() == TypeCarte.helicoptere){
             System.out.println("Action 1 ou 2?");
@@ -221,8 +225,8 @@ public class Joueur {
                 Joueur cible = i.getJoueurs().get(j);
                 if(cible == this) deplacer(z, i);
                 else deplacerAutreJoueur(cible, z, i);
-                paquet.poser(c);
                 retirerCarte(c);
+                paquet.poser(c);
             }
             else if(action == 2){
                 System.out.println("Déplacement vers l'heliport");
@@ -231,8 +235,8 @@ public class Joueur {
                     if(j == this) continue;
                     deplacerAutreJoueur(j, h, i);
                 }
-                paquet.poser(c);
                 retirerCarte(c);
+                paquet.poser(c);
             }
         }
         else if(c.getTypeCarte() == TypeCarte.sacs_de_sable){

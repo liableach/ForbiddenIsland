@@ -1,7 +1,11 @@
 import java.util.Random;
+import java.util.Scanner;
+import java.util.Set;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import javax.swing.ImageIcon;
+import java.awt.Image;
 
 public class Ile{
     private Zone[][] grille;
@@ -16,7 +20,7 @@ public class Ile{
         grille = new Zone[x][y];
         for(int i = 0; i < x; i++){
             for(int j = 0; j < y; j++){
-                grille[i][j] = new Zone(i, j, Type.normale, i + j*6);
+                grille[i][j] = new Zone(i, j, Type.normale, i*largueur + j);
             }
         }
         grille[0][0].setType(Type.eau);
@@ -45,7 +49,7 @@ public class Ile{
                int x1 = r.nextInt(x-1), y1 = r.nextInt(y-1);
                 if(grille[x1][y1].getType() == Type.normale){
                         fait = false;
-                        grille[x1][y1] = new Zone(x1, y1, Type.element_a);
+                        grille[x1][y1].setType(Type.element_a);
                     }
                 }   
         }
@@ -55,7 +59,7 @@ public class Ile{
                int x1 = r.nextInt(x-1), y1 = r.nextInt(y-1);
                 if(grille[x1][y1].getType() == Type.normale){
                         fait = false;
-                        grille[x1][y1] = new Zone(x1, y1, Type.element_f);
+                        grille[x1][y1].setType(Type.element_f);
                     }
                 }   
         }
@@ -65,7 +69,7 @@ public class Ile{
                int x1 = r.nextInt(x-1), y1 = r.nextInt(y-1);
                 if(grille[x1][y1].getType() == Type.normale){
                         fait = false;
-                        grille[x1][y1] = new Zone(x1, y1, Type.element_t);
+                        grille[x1][y1].setType(Type.element_t);
                     }
                 }   
         }
@@ -75,14 +79,48 @@ public class Ile{
                    int x1 = r.nextInt(x-1), y1 = r.nextInt(y-1);
                     if(grille[x1][y1].getType() == Type.normale){
                             fait = false;
-                            grille[x1][y1] = new Zone(x1, y1, Type.element_e);
+                            grille[x1][y1].setType(Type.element_e);
                         }
                     }   
         }
-        joueurs.add(new Joueur(0, getZoneHeliport(), new ImageIcon(getClass().getResource("data/Joueurs/explorateur.png")).getImage(), 0, Role.pilote));
-        joueurs.add(new Joueur(1, getZoneHeliport(), new ImageIcon(getClass().getResource("data/Joueurs/navigateur.png")).getImage(), 1, Role.navigateur));
-        joueurs.add(new Joueur(2, getZoneHeliport(), new ImageIcon(getClass().getResource("data/Joueurs/pilote.png")).getImage(),2, Role.messager));
-        joueurs.add(new Joueur(3, getZoneHeliport(), new ImageIcon(getClass().getResource("data/Joueurs/plongeur.png")).getImage(),3, Role.plongeur));
+        joueurs.add(new Joueur(0, getZoneHeliport(), 0));
+        joueurs.add(new Joueur(1, getZoneHeliport(), 1));
+        joueurs.add(new Joueur(2, getZoneHeliport(),2));
+        joueurs.add(new Joueur(3, getZoneHeliport(),3));
+        dodo();
+    }
+    public Image setImageByRole(Role role){
+        switch(role){
+            case explorateur: 
+                return new ImageIcon(getClass().getResource("data/Joueurs/explorateur.png")).getImage();
+            case plongeur: 
+                return new ImageIcon(getClass().getResource("data/Joueurs/plongeur.png")).getImage();
+            case messager: 
+                return new ImageIcon(getClass().getResource("data/Joueurs/messager.png")).getImage();
+            case pilote: 
+                return new ImageIcon(getClass().getResource("data/Joueurs/pilote.png")).getImage();
+            case navigateur: 
+                return new ImageIcon(getClass().getResource("data/Joueurs/navigateur.png")).getImage();
+            case ingenieur:
+                return new ImageIcon(getClass().getResource("data/Joueurs/ingenieur.png")).getImage();
+        }
+        return null;
+    }
+    public void dodo(){
+        int i = 0;
+        while (i < 4){
+            System.out.println("Choisissez le role du joueur : 0 - pilote, 1 - ingenieur, 2 - explorateur, 3 - navigateur, 4 - plongeur, 5 - messager");
+            Scanner sc = new Scanner(System.in);
+            int role = sc.nextInt();
+            Set<Integer> roles = new HashSet<>();
+            if(roles.contains(role)) System.out.println("Role déjà pris! Choisissez un autre role.");
+            else{
+                roles.add(role);
+                getJoueurs().get(i).setRole(Role.values()[role]);
+                i++;
+            }
+        }
+        for(i = 0; i < joueurs.size(); i++){ joueurs.get(i).setImage(setImageByRole(joueurs.get(i).getRole()));}
     }
     public Zone getZone(int x, int y){
         if(x < 0 || x >= largueur || y < 0 || y >= hauteur) return null;

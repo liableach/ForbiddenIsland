@@ -19,10 +19,10 @@ public class PaquetdeCartes{
             tresor.add(new Carte(TypeCarte.helicoptere));
         }
         for(int i = 0; i < 2; i++) tresor.add(new Carte(TypeCarte.sacs_de_sable));
-
-
+        
         inondations = new ArrayList<Carte>();
         for(int i = 0; i < 24; i++) inondations.add(new Carte(TypeCarte.inondation, i));
+        
         defausseTresors = new ArrayList<Carte>();
         defausseInondations = new ArrayList<Carte>();
         }
@@ -59,35 +59,28 @@ public class PaquetdeCartes{
     }
     
     public Carte tirerCarte_inondations(){
-            if (inondations.isEmpty()) {
+            // il y avait des soucis avec cette méthode du coup j'ai commenté une partie 
+            /*if (inondations.isEmpty()) {
                 melanger_defausse_inondations();
                 inondations.addAll(defausseInondations);
                 defausseInondations.clear();
-            }
+            }*/
             return inondations.remove(inondations.size() - 1);
         }
 
     // Cette méthode dépose la carte dans la défausse
     public void poser(Carte carte){
-        if (carte.getTypeCarte() == TypeCarte.inondation){
-            defausseInondations.add(carte);
-        }
-        else{
-            defausseTresors.add(carte);
-        }
+        if (carte.getTypeCarte() == TypeCarte.inondation) defausseInondations.add(carte);
+        else defausseTresors.add(carte);
     }
 
     public void replacerAuSommet_tresors(){    
-        for(int i = 0; i<defausseTresors.size(); i++){
-            tresor.add(defausseTresors.get( i )) ;
-        }
+        for(int i = 0; i<defausseTresors.size(); i++) tresor.add(defausseTresors.get(i)) ;
         defausseTresors.clear();
     }
 
     public void replacerAuSommet_inondations(){    
-        for(int i = 0; i<defausseInondations.size(); i++){
-            inondations.add(defausseInondations.get( i )) ;
-        }
+        for(int i = 0; i<defausseInondations.size(); i++) inondations.add(defausseInondations.get(i));
         defausseInondations.clear();
     }
 }

@@ -58,7 +58,6 @@ class Vue extends JPanel {
         g.drawRect(Width-600, 10, 250, 70);
         //Affichage des cartes des joueurs et leurs récompense
         g.drawRect(Width/2 - 50, Height/2 - 50, Width/2 + 30, 500);
-
         for (int y = 0; y < 6; y++) {
             for (int x = 0; x < 6; x++){
                 Zone z = ile.getZone(x, y);
@@ -81,6 +80,8 @@ class Vue extends JPanel {
                 g.setColor(Color.BLACK);
                 g.drawRect(x * 150 , y * 170 , 150, 170);
                 g.drawString(z.getType().toString(), x*150 + 50, y*170 + 85);
+                if(ile.getZoneHeliport().getEtat() == Etat.normale)g.drawImage(heliport_non_inondee,ile.getZoneHeliport().getX150() ,ile.getZoneHeliport().getY170(), 150, 170, null);
+                else g.drawImage(heliport_inondee,ile.getZoneHeliport().getX150() ,ile.getZoneHeliport().getY170(), 150, 170, null);
                 ArrayList<Joueur> joueurs = ile.getJoueurs();
                 Joueur j1 = joueurs.get(0);
                 Joueur j2 = joueurs.get(1);
@@ -99,15 +100,6 @@ class Vue extends JPanel {
         g.drawImage(Pierre_sacree, Width/3 + 110 ,  0, 150, 170, null);
         g.drawImage(Cristal_ardent,  0, Height - 230, 150, 170, null);
         g.drawImage(Statue_du_Zephir, Width/3 + 110, Height - 230 , 150, 170, null);
-
-        //affichage de l'héliport 
-        /*if(ile.getZoneHeliport().getEtat() == Etat.normale)g.drawImage(heliport_non_inondee,ile.getZoneHeliport().getX150() ,ile.getZoneHeliport().getY170(), 150, 170, null);
-        else g.drawImage(heliport_inondee,ile.getZoneHeliport().getX150() ,ile.getZoneHeliport().getY170(), 150, 170, null);
-        */
-        
-
-        //affichage des pions sur l'île(joueurs) en début de partie.
-
     }
     @Override
     public void update(Graphics g) {

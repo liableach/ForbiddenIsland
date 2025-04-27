@@ -1,5 +1,6 @@
 import java.util.Scanner;
-
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.SwingUtilities;
 
 public class Jeu {
@@ -15,6 +16,8 @@ public class Jeu {
     public Jeu(){ 
         i = new Ile(6, 6); 
         paquet = new PaquetdeCartes();
+        paquet.melanger_tresor();
+        paquet.melanger_inondations();
     }
 
     private void majAffichage() {
@@ -32,6 +35,8 @@ public class Jeu {
         int n = i.getCurrentJoueur();
         Joueur joueur = i.getJoueurs().get(n);
         if(joueur.monteeDesEauxTiree()){
+            System.out.println("Montee des eaux !");
+            System.out.println("Niveau d'eau : " + niveau);
             incrementerNiveau();
             paquet.melanger_defausse_inondations();
             paquet.replacerAuSommet_inondations();
@@ -40,28 +45,32 @@ public class Jeu {
             paquet.poser(c);
         }
     }
+    public int transformerN(int n) {
+        if (n < 2) return n+2;
+        if (n < 6) return n+5;
+        if (n < 18) return n+6;
+        if (n < 22) return n+7;
+        return n+10;
+    }
+
     public void tourJoueur() {
         if (partieTerminee) return;
 
         Joueur joueur = i.getJoueurs().get(i.getCurrentJoueur());
 
-        // Phase d'actions du joueur (gérée ailleurs : FenetreJeu ou Vue)
-        // -> ici on suppose que les 3 actions sont faites manuellement
         Scanner sc = new Scanner(System.in);    
         while(joueur.getNbActions() != 0) {
         majAffichage();
-        System.out.println("Niveau d'eau : " + niveau);
-        System.out.println(paquet.getTailleDefausseTresors() + " cartes tresor dans la défausse.");
-        System.out.println(paquet.getTailleTresors() + " cartes tresor");
-        System.out.println(paquet.getTailleDefausseInondations() + " cartes inondation dans la défausse.");
-        System.out.println(paquet.getTailleInondations() + " cartes inondation");
-        System.out.println("Actions disponibles pour " + joueur.getId() + " (" + joueur.getNbActions() + " actions restantes) :");
+        System.out.println("Actions disponibles pour " + joueur.getNom() + ", id : " + joueur.getId() + ", role : " + joueur.getRole() + " (" + joueur.getNbActions() + " actions restantes) :");
         System.out.println("1. Se déplacer");
         System.out.println("2. Assécher une zone");
-        System.out.println("3. Donner une carte");
-        System.out.println("4. Récupérer un artefact");
-        System.out.println("5. Déplacer un joueur (navigateur)");
-        System.out.println("6. Fin du tour");
+        System.out.println("3. Voir la main d'un joueur");
+        System.out.println("4. Jouer une carte spéciale (sacs de sable ou hélicoptère)");
+        System.out.println("5. Donner une carte");
+        System.out.println("6. Récupérer un artefact");
+        System.out.println("7. Voir artefacts récupérés");
+        System.out.println("8. Déplacer un joueur (navigateur)");
+        System.out.println("9. Fin du tour");
         int choix = sc.nextInt();
         switch(choix){
         case 1:
@@ -73,7 +82,7 @@ public class Jeu {
                 System.out.println("Zone invalide !");
                 break;
             }
-            joueur.deplacer(z, i); // à coder : méthode seDeplacer
+            joueur.deplacer(z, i); 
             break;
         case 2:
             System.out.println("Précisez la zone à assécher (x, y)");
@@ -91,14 +100,33 @@ public class Jeu {
             else joueur.assecher(z,i); // à coder : méthode assecher
             break;
         case 3:
-            System.out.println("Précisez le joueur à qui donner la carte (id) et la carte (id)");
-            int idJoueur = sc.nextInt();
-            int idCarte = sc.nextInt();
-            Joueur joueurCible = i.getJoueurs().get(idJoueur);
-            Carte c = joueur.getCarte(idCarte);
-            joueur.donnerCarte(joueurCible, c); // à coder : méthode donnerCarte
+            System.out.println("Précisez le joueur (id)");
+            int id = sc.nextInt();
+            Joueur joueurCible = i.getJoueurs().get(id);
+            System.out.println("Main du joueur " + id + " : ");
+            for (Carte c : joueurCible.getMain()) {
+                System.out.println(c.getTypeCarte().toString());
+            }
             break;
         case 4:
+            if(!joueur.contientCarteSpeciale()) {
+                System.out.println("Vous ne possédez pas de carte spéciale !");
+                break;
+            }
+            System.out.println("Précisez la carte à jouer (id)");
+            int idCarte = sc.nextInt();
+            Carte carte = joueur.getCarte(idCarte);
+            joueur.jouerCarteSpeciale(carte, i, paquet);
+            break;
+        case 5:
+            System.out.println("Précisez le joueur à qui donner la carte (id) et la carte (id)");
+            int idj = sc.nextInt();
+            int idc = sc.nextInt();
+            joueurCible = i.getJoueurs().get(idj);
+            Carte c = joueur.getCarte(idc);
+            joueur.donnerCarte(joueurCible, c); // à coder : méthode donnerCarte
+            break;
+        case 6:
             System.out.println("Précisez l'artefact à récupérer (id) : 0 - eau 1 - feu 2 - terre 3  - air");
             int idArtefact = sc.nextInt();
             switch(idArtefact) {
@@ -116,16 +144,24 @@ public class Jeu {
                 break;
             }
             break;
-        case 5: 
+        case 7:
+            if(joueur.nbArtefacts() == 0) {
+                System.out.println("Vous n'avez pas récupéré d'artefact !");
+                break;
+            }
+            System.out.println("Artefacts récupérés : ");
+            joueur.afficherArtefacts();
+            break;
+        case 8: 
             if(joueur.getRole() != Role.navigateur) {
                 System.out.println("Vous n'êtes pas le navigateur !");
                 break;
             }
             System.out.println("Précisez le joueur à déplacer (id) et la zone (x, y)");
-            idJoueur = sc.nextInt();
+            idj = sc.nextInt();
             x = sc.nextInt();
             y = sc.nextInt();
-            Joueur joueurCible2 = i.getJoueurs().get(idJoueur);
+            Joueur joueurCible2 = i.getJoueurs().get(idj);
             Zone z2 = i.getZone(x, y);
             if (z2 == null || z2.getType() == Type.vide  || z2.getType() == Type.air || z2.getType() == Type.terre || z2.getType() == Type.eau || z2.getType() == Type.feu) {
                 System.out.println("Zone invalide !");
@@ -133,7 +169,7 @@ public class Jeu {
             }
             else joueur.deplacerAutreJoueur(joueurCible2, z2, i);
             break;
-        case 6:
+        case 9:
             System.out.println("Fin du tour.");
             joueur.finTour();
             break;
@@ -144,19 +180,25 @@ public class Jeu {
                 Carte c = paquet.tirerCarte_tresor();
                 joueur.ajouterCarte(c);
                 monteeDesEaux();
+                if(joueur.nbCartes() > 5){
+                    System.out.println("Vous avez plus de 5 cartes Retirez une carte. Précisez la carte à retirer (id)");
+                    for(Carte carte : joueur.getMain()) System.out.println(carte.getTypeCarte().toString() + " id : " + joueur.getMain().indexOf(carte));
+                    int id = sc.nextInt();
+                    Carte carte = joueur.getCarte(id);
+                    if(carte.estSpeciale()) joueur.jouerCarteSpeciale(carte, i, paquet);
+                    else joueur.retirerCarte(carte);
+                    paquet.poser(carte);
+                }
             }
             // Pioche de cartes inondation selon le niveau
             for (int j = 0; j < nombreCartesInondation(); j++) {
                 Carte c = paquet.tirerCarte_inondations();
                 int n = c.getN();
-                int nn;
-                if(n < 7) nn = n - 2;
-                else if(n < 12) nn = n - 5;
-                else if(n < 24) nn = n - 6;
-                else if(n < 30) nn = n - 7;
-                else nn = n + 10;
+                System.out.println("Carte inondation : " + n);
+                int nn = transformerN(n);
+                System.out.println("Zone inondée : " + nn);
                 Zone z = i.getZone(nn);
-                if(z != null) z.inonder();
+                if(z != null)z.inonder();
                 paquet.poser(c);
 
             }
@@ -178,7 +220,6 @@ public class Jeu {
     }
 
     private int nombreCartesInondation() {
-        // Règle classique : plus le niveau d'eau monte, plus on pioche
         if (niveau < 2) return 2;
         if (niveau < 5) return 3;
         if (niveau < 7) return 4;
@@ -208,14 +249,10 @@ public class Jeu {
 
     public static void main(String[] args) {
         Jeu jeu = new Jeu();
-        // 1) create your Swing window on the EDT
         SwingUtilities.invokeLater(() -> {
             FenetreJeu fen = new FenetreJeu(jeu.getIle());
             jeu.setFenetre(fen);
         });
-        // 2) run your console/game loop on the main thread
         jeu.jouerPartie();
     }
-    
-    
 }
