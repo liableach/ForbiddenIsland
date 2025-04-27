@@ -49,6 +49,7 @@ public class Jeu {
         // -> ici on suppose que les 3 actions sont faites manuellement
         Scanner sc = new Scanner(System.in);    
         while(joueur.getNbActions() != 0) {
+        majAffichage();
         System.out.println("Niveau d'eau : " + niveau);
         System.out.println(paquet.getTailleDefausseTresors() + " cartes tresor dans la défausse.");
         System.out.println(paquet.getTailleTresors() + " cartes tresor");
@@ -176,7 +177,6 @@ public class Jeu {
             else i.setCurrentJoueur(i.getCurrentJoueur()+1);
             incrementerTour();
             joueur.actionsReset();
-            majAffichage();
     }
 
     private int nombreCartesInondation() {

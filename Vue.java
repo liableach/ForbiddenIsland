@@ -81,6 +81,15 @@ class Vue extends JPanel {
                 g.setColor(Color.BLACK);
                 g.drawRect(x * 150 , y * 170 , 150, 170);
                 g.drawString(z.getType().toString(), x*150 + 50, y*170 + 85);
+                ArrayList<Joueur> joueurs = ile.getJoueurs();
+                Joueur j1 = joueurs.get(0);
+                Joueur j2 = joueurs.get(1);
+                Joueur j3 = joueurs.get(2);
+                Joueur j4 = joueurs.get(3);
+                g.drawImage(joueurs.get(0).getImage(), j1.getX() + 5 ,  j1.getY() + 5, 40, 40, null);
+                g.drawImage(joueurs.get(1).getImage(), j2.getX() + 100 ,j2.getY() + 5 , 40, 40, null);
+                g.drawImage(joueurs.get(2).getImage(), j3.getX() + 5 ,  j3.getY() + 110 , 40, 40, null);
+                g.drawImage(joueurs.get(3).getImage(), j4.getX()  + 100,j4.getY() + 110, 40, 40, null);
             }
         }
         
@@ -102,10 +111,6 @@ class Vue extends JPanel {
         Joueur j4 = joueurs.get(3);
 
         //affichage des pions sur l'île(joueurs) en début de partie.
-        g.drawImage(joueurs.get(0).getImage(), j1.getX() + 5 ,  j1.getY() + 5, 40, 40, null);
-        g.drawImage(joueurs.get(1).getImage(), j2.getX() + 100 ,j2.getY() + 5 , 40, 40, null);
-        g.drawImage(joueurs.get(2).getImage(), j3.getX() + 5 ,  j3.getY() + 110 , 40, 40, null);
-        g.drawImage(joueurs.get(3).getImage(), j4.getX()  + 100,j4.getY() + 110, 40, 40, null);
 
     }
     
