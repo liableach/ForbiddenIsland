@@ -1,6 +1,6 @@
 package cartes;
 // classe principale pour les cartes
-public class Carte {
+public class Carte{
     private TypeCarte type;
     private int n; // pour les cartes inondations, car plus facile de gérer les cartes inondations avec un nombre donné
 

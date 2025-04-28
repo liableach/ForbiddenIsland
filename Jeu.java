@@ -18,15 +18,16 @@ public class Jeu {
     private int tour = 0;
     private boolean partieTerminee = false;
     private FenetreJeu fenetre;
-    public void setFenetre(FenetreJeu f) { this.fenetre = f; }
-
-
+    
     public Jeu(){ 
         i = new Ile(6, 6); 
         paquet = new PaquetdeCartes();
         paquet.melanger_tresor();
         paquet.melanger_inondations();
     }
+    public void setFenetre(FenetreJeu f) { this.fenetre = f; }
+    public Ile getIle(){ return i; }
+    public int getTour() { return tour; }
     // affichage aka update
     private void majAffichage() {
         if (fenetre != null) {
@@ -34,8 +35,6 @@ public class Jeu {
             SwingUtilities.invokeLater(() -> fenetre.getVue().update());
         }
     }
-    public Ile getIle(){ return i; }
-    public int getTour() { return tour; }
     //que faire si la carte "montee des eaux" est tirée
     public void monteeDesEaux(){
         int n = i.getCurrentJoueur();
