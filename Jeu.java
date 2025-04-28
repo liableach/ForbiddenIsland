@@ -20,7 +20,7 @@ public class Jeu {
     private FenetreJeu fenetre;
     
     public Jeu(){ 
-        i = new Ile(6, 6); 
+        i = new Ile(6, 6, true); // true pour les roles
         paquet = new PaquetdeCartes();
         paquet.melanger_tresor();
         paquet.melanger_inondations();

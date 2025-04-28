@@ -128,7 +128,7 @@ public class Joueur {
     }
     public int nbCartes(){ return cartes_joueur.size(); }
     public void donnerCarte(Joueur j, Carte c){
-        if(this.role != Role.messager || j.position != this.position){
+        if(this.role != Role.messager && j.position != this.position){
             System.out.println("Vous n'êtes pas dans la même zone et votre rôle n'est pas messager.");
             return;
         }

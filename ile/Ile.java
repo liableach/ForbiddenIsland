@@ -18,7 +18,7 @@ public class Ile{
     private int currentJoueur;
     private int niveau = 0;
 
-    public Ile(int x, int y){
+    public Ile(int x, int y, boolean b){
         currentJoueur = 0;
         joueurs = new ArrayList<Joueur>(4);
         largueur = x; hauteur = y;
@@ -93,7 +93,7 @@ public class Ile{
         joueurs.add(new Joueur("Jaco Pastorious", getZoneHeliport(), 1));
         joueurs.add(new Joueur("Jason Newsted", getZoneHeliport(),2));
         joueurs.add(new Joueur("Krist Novoselic", getZoneHeliport(),3));
-        donnerLesRoles();
+        if(b == true) donnerLesRoles();
     }
     // donner une image à un joueur selon son role
     public Image setImageByRole(Role role){

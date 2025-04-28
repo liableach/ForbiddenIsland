@@ -65,6 +65,9 @@ public class Zone{
     }
     public void assecher(){ 
         if(etat == Etat.inondee) etat = Etat.normale;
-        else return;
+        else{
+            System.out.println("La zone est submergée");
+            return;
+        }
     }
 }

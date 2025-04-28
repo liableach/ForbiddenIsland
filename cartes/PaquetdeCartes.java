@@ -28,6 +28,10 @@ public class PaquetdeCartes{
         defausseInondations = new ArrayList<Carte>();
         }
 
+    public ArrayList<Carte> getTresor(){ return tresor; }
+    public ArrayList<Carte> getInondations(){ return inondations; }
+    public ArrayList<Carte> getDefausseTresors(){ return defausseTresors; }
+    public ArrayList<Carte> getDefausseInondations(){ return defausseInondations; }
     public void melanger_tresor(){
         if(tresor.isEmpty()) return;
         Collections.shuffle(tresor);
