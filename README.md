@@ -6,6 +6,7 @@ On devait l'implémenter en Java, donc dans les 3 parties qui vont suivre, on d�
 
 ## 1 - Répartition des tâches et directive du projet.
 Les parties qu'on a pu réaliser:
+
 .- Le View du jeu
 
 .- Les rôles (pilotes, plongeurs,.. ), ainsi que leurs capacités spéciales.
