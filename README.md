@@ -15,9 +15,9 @@ Les parties qu'on a pu réaliser:
 .- L'affichage des informations importantes sur l'interface graphique(grâce à swig).
 
 Comment on s'est réparti ? :
-.-globalement Lia se charge de faire la logique du jeu ainsi que les tests pour bien assurer le fonctionnement du jeu et Mamisoa se charge de raccorder la logique , les contrôles et l'affichage. Pendant l'implémentation du jeu on était côte à côte, donc on s'est entrâidé mutuellement quand on était coincé sur un bug.
+.-globalement Illia se charge de faire la logique du jeu ainsi que les tests pour bien assurer le fonctionnement du jeu et Mamisoa se charge de raccorder la logique , les contrôles et l'affichage. Pendant l'implémentation du jeu on était côte à côte, donc on s'est entrâidé mutuellement quand on était coincé sur un bug.
 
-.- Lia a fait la plupart des méthodes dans les classes Zone et Ile
+.- Illia a fait la plupart des méthodes dans les classes Zone et Ile
 .- Mamisoa a fait la plupart des méthodes dans Vue et FenetreJeu .
 .- Sinon on a compléter globalement ensemble les autres Classes ensemble.
 
