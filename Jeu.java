@@ -1,15 +1,23 @@
 import java.util.Scanner;
-import java.util.HashSet;
-import java.util.Set;
 import javax.swing.SwingUtilities;
+
+import cartes.Carte;
+import ile.Element;
+import ile.Etat;
+import ile.Type;
+import ile.Zone;
+import ile.Ile;
+import cartes.PaquetdeCartes;
+import graphics.FenetreJeu;
+import joueur.Joueur;
+import joueur.Role;
 
 public class Jeu {
     Ile i;
     PaquetdeCartes paquet;
-    private int niveau = 0;
     private int tour = 0;
     private boolean partieTerminee = false;
-    private FenetreJeu fenetre;      // new
+    private FenetreJeu fenetre;
     public void setFenetre(FenetreJeu f) { this.fenetre = f; }
 
 
@@ -19,7 +27,7 @@ public class Jeu {
         paquet.melanger_tresor();
         paquet.melanger_inondations();
     }
-
+    // affichage aka update
     private void majAffichage() {
         if (fenetre != null) {
             // ensure we ask Swing to repaint on the EDT
@@ -27,17 +35,15 @@ public class Jeu {
         }
     }
     public Ile getIle(){ return i; }
-    public int getNiveau() { return niveau; }
     public int getTour() { return tour; }
-    public void incrementerNiveau() { niveau++; }
-    public void incrementerTour() { tour++; }
+    //que faire si la carte "montee des eaux" est tirée
     public void monteeDesEaux(){
         int n = i.getCurrentJoueur();
         Joueur joueur = i.getJoueurs().get(n);
         if(joueur.monteeDesEauxTiree()){
             System.out.println("Montee des eaux !");
-            System.out.println("Niveau d'eau : " + niveau);
-            incrementerNiveau();
+            System.out.println("Niveau d'eau : " + i.getNiveau());
+            i.incrementerNiveau();
             paquet.melanger_defausse_inondations();
             paquet.replacerAuSommet_inondations();
             Carte c = joueur.getDerniereCarte();
@@ -45,6 +51,10 @@ public class Jeu {
             paquet.poser(c);
         }
     }
+    // AJAHHAHAHAHAHAHHAHAHAHA ça c'est vraiment un truc d'un imbécile (moi), comme il y a que 24 cases parmi 36 qu'on est obligé de initialiser, 
+    // il faut rajouter un nombre dependant de sa position sur la grille, 
+    // tout ça parce qu'on a décidé de stocker les cartes inondations avec un id de 0 à 23...
+    // du coup "n" c'est le numéro de chaque Zone dans la grille
     public int transformerN(int n) {
         if (n < 2) return n+2;
         if (n < 6) return n+5;
@@ -52,7 +62,14 @@ public class Jeu {
         if (n < 22) return n+7;
         return n+10;
     }
-
+    // ici commence le truc de fou à 164 lignes de code, petit recap :
+    // si la partie n'est pas terminée, on joue
+    // on affiche les actions possibles
+    // on fait l'action choisie par le joueur
+    // on pioche 2 cartes trésor + on vérifir le nombre de cartes + on verifie si la carte "montee des eaux" est tirée
+    // on pioche des cartes inondations selon le niveau d'eau
+    // on vérifie si la partie est gagnée ou perdue
+    // on passe au joueur suivant
     public void tourJoueur() {
         if (partieTerminee) return;
 
@@ -193,23 +210,22 @@ public class Jeu {
                 }
             }
             // Pioche de cartes inondation selon le niveau
-            for (int j = 0; j < nombreCartesInondation(); j++) {
+            for (int j = 0; j < i.get_niveau_eau(); j++){
+                if(paquet.getTailleInondations() == 0) break;
                 Carte c = paquet.tirerCarte_inondations();
                 int n = c.getN();
-                System.out.println("Carte inondation : " + n);
                 int nn = transformerN(n);
-                System.out.println("Zone inondée : " + nn);
                 Zone z = i.getZone(nn);
+                System.out.println("Zone inondée : " + z.getType().toString());
                 if(z != null)z.inonder();
                 paquet.poser(c);
-
             }
             // Vérifications après le tour
-            if (checkVictoire()) {
+            if (checkWin()) {
                 finPartie(true);
                 return;
             }
-            if (checkDefaite()) {
+            if (checkLoss()) {
                 finPartie(false);
                 return;
             }
@@ -217,42 +233,29 @@ public class Jeu {
                 i.setCurrentJoueur(0);
             }
             else i.setCurrentJoueur(i.getCurrentJoueur()+1);
-            incrementerTour();
             joueur.actionsReset();
     }
+    // dans les régles
+    private boolean checkWin() { return i.getArtefactsRecuperes() == 4 && i.tousJoueursSurHeliport(); }
 
-    private int nombreCartesInondation() {
-        if (niveau < 2) return 2;
-        if (niveau < 5) return 3;
-        if (niveau < 7) return 4;
-        return 5;
-    }
+    // oui, le code en 1 ligne
+    private boolean checkLoss() { return (i.getNiveau() >= 10) || (i.heliportSubmerge()) || (i.artefactPerdu()) || (i.checkJoueurMort()); }
 
-    private boolean checkVictoire() { return i.getArtefactsRecuperes() == 4 && i.tousJoueursSurHeliport(); }
-
-    private boolean checkDefaite() {
-        return (niveau >= 10) || (i.heliportSubmerge()) || (i.artefactPerdu()) || (i.checkJoueurMort());
-    }
-
-    private void finPartie(boolean victoire) {
+    private void finPartie(boolean win) {
         partieTerminee = true;
-        if (victoire) {
-            System.out.println("Victoire ! Vous vous êtes échappés avec tous les artefacts !");
-        } else {
-            System.out.println("Défaite... L'île vous a engloutis.");
-        }
+        if (win) System.out.println("Victoire ! Vous vous êtes échappés avec tous les artefacts !"); 
+        else System.out.println("Défaite... L'île vous a engloutis.");
     }
 
     public void jouerPartie() {
-        while (!partieTerminee) {
-            tourJoueur();
-        }
+        while (!partieTerminee) tourJoueur();
     }
 
     public static void main(String[] args) {
         Jeu jeu = new Jeu();
+        // les nouveaux trucs de java (volés à partir de ocaml)
         SwingUtilities.invokeLater(() -> {
-            FenetreJeu fen = new FenetreJeu(jeu.getIle());
+            FenetreJeu fen = new FenetreJeu(jeu.getIle(), jeu.paquet);
             jeu.setFenetre(fen);
         });
         jeu.jouerPartie();

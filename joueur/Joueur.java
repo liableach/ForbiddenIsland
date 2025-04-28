@@ -1,3 +1,4 @@
+package joueur;
 import java.util.List;
 import java.util.Queue;
 import java.awt.Image;
@@ -5,46 +6,58 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
+
+import cartes.Carte;
+import cartes.PaquetdeCartes;
+import ile.Element;
+import cartes.TypeCarte;
+import ile.Etat;
+import ile.Ile;
+import ile.Type;
+import ile.Zone;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Joueur {
-    private int nom;
+    private String nom;
     private int id;
     private Zone position;
     private Role role;
-    private boolean actionSpeciale = false;
+    private boolean actionSpeciale = false; // pour les rôles qui ont une action spéciale
     private int nbActions = 3;
     private boolean secondeAssechementIngenieur = false; // à réinitialiser à chaque tour
     private ArrayList<Element> artefacts;
-    // j'ai ajouté ça pour les cartes du joueur
     private ArrayList<Carte> cartes_joueur;
+    // pas trouvé son utilité dans le code :(((
     //private List<Carte>cles; // 0 - eau, 1 - feu, 2 - terre, 3 - air
     private Image image;
 
-    public Joueur(int nom, Zone position, int i) {
+    public Joueur(String nom, Zone position, int i) {
         this.nom = nom;
         this.id = i;
         this.position = position;
         this.artefacts = new ArrayList<>();
         this.cartes_joueur = new ArrayList<Carte>(5);
-        //this.cles = new ArrayList<Carte>(4); 
     }
-    public int getNom(){ return nom; }
+    // getters blabla
+    public String getNom(){ return nom; }
     public int getX(){return this.position.getX150(); }
     public int getY(){return this.position.getY170(); }
     public Role getRole(){ return role; }
     public int getNbActions(){ return nbActions; }
     public Zone getPos(){ return position; }
     public int getId(){ return id; }
+    public ArrayList<Carte> getMain(){ return cartes_joueur; }
+    // setters blabla (et 2 resetters)
     public void setImage(Image image){ this.image = image; }
     public void setRole(Role role){ this.role = role; }
     public void actionFaite(){ nbActions--; }
     public void actionsReset(){ nbActions = 3; }
     public void resetActionSpeciale(){ actionSpeciale = false; }
-    public ArrayList<Carte> getMain(){ return cartes_joueur; }
 
     public void afficherArtefacts(){ for(Element e : artefacts) System.out.println(e.toString()); }
+    //vérifier si le deplacement est possible
     public boolean deplacementPossible(Zone z, Ile ile){
         return switch (role){
             case explorateur -> position.estAdjacente(z, true);
@@ -61,6 +74,7 @@ public class Joueur {
             actionFaite();
         }
     }
+    // pour le role de navigateur
     public void deplacerAutreJoueur(Joueur cible, Zone destination, Ile ile) {
         if (this.role != Role.navigateur || cible == this || actionSpeciale) return;
         List<Zone> adjacentes1 = cible.position.getZonesAdjacentes(ile, false);
@@ -75,7 +89,7 @@ public class Joueur {
         }
         return;
     }
-    
+    // pour le role de plongeur, du coup merci pour les TDS de linkedlist et hashset
     private boolean cheminPlongeurPossible(Zone destination, Ile ile){
         if (destination.getType() == Type.vide && destination.getEtat() != Etat.submergee) return false;
         Set<Zone> visitees = new HashSet<>();
@@ -101,6 +115,7 @@ public class Joueur {
         boolean estZoneValide = z != null && (z == position || adjacente);
         if (estZoneValide && z.getEtat() == Etat.inondee){
             z.assecher();
+            // ingenieur peut assécher 2 zones
             if (role == Role.ingenieur){
                 if (secondeAssechementIngenieur){
                     actionFaite();
@@ -121,7 +136,7 @@ public class Joueur {
         if (!s.contains("tresor")){
             System.out.println("Carte non valide.");
             return;
-        };
+        }
         if(cartes_joueur.contains(c) && j.nbCartes() < 5){
             retirerCarte(c);
             j.ajouterCarte(c);
@@ -132,6 +147,7 @@ public class Joueur {
         for(Element a : artefacts) if(a == e) return true;
         return false;
     }
+    // compter si le joueur a 4 cles pour récupérer un artefact
     public List<Integer> compterCles(){
         List<Integer> res = new ArrayList<>(List.of(0, 0, 0, 0));
         for (Carte c : cartes_joueur) {
@@ -146,7 +162,9 @@ public class Joueur {
         }
         return res;
     }
+    // je sais pas pourquoi c'est ici mais voilà j'étais très fatigué                       oui, je pouvais l'implementer dans la classe carte
     private boolean correspond(TypeCarte t, Element e){ return (t.getElement() == e); }
+    // plein des nuances...
     public void recupererArtefact(Element e, Ile i, PaquetdeCartes cartes){
         Zone z = position;
         if(z.getType() != Type.element_a && e == Element.air){
@@ -196,20 +214,19 @@ public class Joueur {
     public void retirerCarte(Carte c){ cartes_joueur.remove(c); }
     public void ajouterArtefact(Element e){ artefacts.add(e); }
     public int nbArtefacts(){ return artefacts.size(); }
+    // 1 getter ici..., code pas du tout bien rangé!!!!
     public Carte getDerniereCarte(){
         if(cartes_joueur.size() == 0) return null;
         return cartes_joueur.get(cartes_joueur.size() - 1);
     }
-    public boolean monteeDesEauxTiree(){
-        return getDerniereCarte().getTypeCarte() == TypeCarte.montee_des_eaux;
-    }
-    public Image getImage(){
-        return this.image;
-    }
+    // oui, j'adore écrire en une seule ligne
+    public boolean monteeDesEauxTiree(){ return getDerniereCarte().getTypeCarte() == TypeCarte.montee_des_eaux; }
+    public Image getImage(){ return this.image; }
     public boolean contientCarteSpeciale(){
         for(Carte c : cartes_joueur) if(c.getTypeCarte() == TypeCarte.helicoptere || c.getTypeCarte() == TypeCarte.sacs_de_sable) return true; 
         return false;
     }
+    // du coup ça c'était marron(un peu)
     public void jouerCarteSpeciale(Carte c, Ile i, PaquetdeCartes paquet){
         if(c.getTypeCarte() == TypeCarte.helicoptere){
             System.out.println("Action 1 ou 2?");
@@ -260,5 +277,3 @@ public class Joueur {
     }
     public void finTour(){ nbActions = 0;}
 }
-
-enum Role{ pilote, ingenieur, explorateur, navigateur, plongeur, messager }

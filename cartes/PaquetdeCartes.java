@@ -1,6 +1,7 @@
+package cartes;
 import java.util.ArrayList;
 import java.util.Collections;
-
+// creer/gerer le paquet de cartes
 public class PaquetdeCartes{
     private ArrayList<Carte> tresor; //28
     private ArrayList<Carte> inondations; //24
@@ -59,7 +60,7 @@ public class PaquetdeCartes{
     }
     
     public Carte tirerCarte_inondations(){
-            // il y avait des soucis avec cette méthode du coup j'ai commenté une partie 
+            // il y avait des soucis avec cette méthode car dans les régles il n'est pas dit quoi faire si la pile de cartes inondations est vide
             /*if (inondations.isEmpty()) {
                 melanger_defausse_inondations();
                 inondations.addAll(defausseInondations);
@@ -68,7 +69,7 @@ public class PaquetdeCartes{
             return inondations.remove(inondations.size() - 1);
         }
 
-    // Cette méthode dépose la carte dans la défausse
+    // Cette méthode dépose la carte dans la défausse dependant de son type
     public void poser(Carte carte){
         if (carte.getTypeCarte() == TypeCarte.inondation) defausseInondations.add(carte);
         else defausseTresors.add(carte);

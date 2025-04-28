@@ -1,12 +1,13 @@
+package ile;
 import java.util.ArrayList;
 import java.util.List;
-
+//classe zone
 public class Zone{
     private final int x, y; 
-    private int n;
+    private int n; // en introduisant n, il était plus facile de réaliser l'inondation des zones aléatoire (pile inondation)
     private Etat etat;
     private Type type;
-
+    //2 constructeurs differents 
     public Zone(int x, int y, Type type){
         this.x = x;
         this.y = y;
@@ -33,12 +34,7 @@ public class Zone{
     public String toString(){ return "Zone : " + "x = " + x + ", y = " + y + ", etat = " + etat + ", type = " + type;} //était utilisée pour les tests
 
     public boolean traversable(){ return etat != Etat.submergee && type != Type.vide;}
-    public boolean estAdjacente(Zone z){
-        if(z == null) return false;
-        if(Math.abs(x - z.getX()) <= 1 && Math.abs(y - z.getY()) <= 1) return true;
-        return false;
-    }
-    //verifier si la zone est adjacente
+    //verifier si la zone est adjacente avec diagonales ou pas
     public boolean estAdjacente(Zone other, boolean diagonales) {
         int dx = Math.abs(this.x - other.x);
         int dy = Math.abs(this.y - other.y);
@@ -72,9 +68,3 @@ public class Zone{
         else return;
     }
 }
-
-//enums 
-
-enum Etat{ normale, inondee, submergee }
-enum Type{ normale, heliport, element_a, element_t, element_e, element_f, vide, feu, eau, terre, air }
-enum Element{ air, terre, eau, feu }
